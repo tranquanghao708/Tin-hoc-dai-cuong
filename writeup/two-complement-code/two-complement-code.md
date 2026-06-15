@@ -60,7 +60,7 @@ Trọng số lần lượt các bit : -4096 (Số MSB) , 2048, 1024...
 
 	- `N` : là các vị trí bit
 
-Ví dụ : `2**12 = -4096` (do là signed thì MSB = 1 ta phải thêm âm vô) , bằng chứng cho kết quả :
+Ví dụ : `2**12 = 4096` (tại sao làm việc ở mức MSB signed mà tôi không thêm âm? do là mã bù hai bit MSB vốn đã có trọng số âm rồi) , bằng chứng cho kết quả :
 
 ![alt text](image1.png)
 
