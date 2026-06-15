@@ -82,8 +82,8 @@ vậy còn số nhị phân `011011000100` ta lập bảng :
 
 ![alt text](image4.png)
 
-từ bảng ta có làn lượt là : `1024 , 512 , 128 và 4`
+từ bảng ta có làn lượt là : `1024 , 512 , 128 , 64 và 4`
 
-tính tổng lại : `1024 + 512 + 128 + 4 = 1668`
+tính tổng lại : `1024 + 512 + 128 + 64 + 4 = 1732`
 
 ![alt text](image5.png)
