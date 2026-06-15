@@ -35,7 +35,7 @@ với đoạn nhị phân 1 là 1001001100010 ta lập bảng
 
 | Bit vị trí | 12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
 |------------|----|----|----|---|---|---|---|---|---|---|---|---|---|
-| bit    | 1  | 0  | 0  | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | 0 |
+| bit        | 1  | 0  | 0  | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 | 1 | 0 |
 
 
 Trọng số lần lượt các bit : -4096 (Số MSB) , 2048, 1024... 
@@ -54,4 +54,14 @@ Ví dụ : `2**12 = -4096` (do là signed thì MSB = 1 ta phải thêm âm vô) 
 
 ![alt text](image1.png)
 
-- Để tiết kiệm thời gian, tôi chỉ lấy những bit 
+- Để tiết kiệm thời gian, tôi chỉ lấy những bit vị trí có bit là `1` thôi, bởi vì bit 1 mới có thể đem đi và cộng lại và bit 0 thì không thể cộng lại vì 0 là tắt rồi nó không hoạt động nữa nên chúng ta bỏ. Dựa trên bảng bit thì chúng ta có những vị trí và trọng số của các bit 1 :
+
+| Bit vị trí | 12 | 9 | 6 | 5 | 1 |
+|------------|----|---|---|---|---|
+| Trọng số   |  -4096 | 512 | 64 | 32 | 2 |
+
+![alt text](image2.png)
+
+ta có lần lượt các trọng số bit 1 như sau : `-4096 , 512 , 64 , 32 , 2`
+
+Và ta tiến hành cộng chúng lại để ra giá trị của chúng : `(-4096) + 512 + 64 + 32 + 2 = -3486` giá trị của bit `1001001100010` là -3486
