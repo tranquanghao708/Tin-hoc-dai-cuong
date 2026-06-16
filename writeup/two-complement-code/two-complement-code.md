@@ -14,8 +14,6 @@
 
 	- 1.3.2.Debug chương trình C
 
-	- 1.3.3.Tại sao call printf() nhưng transmit vào lại thêm 0xffff?
-
 	- 1.4.Chuyển đổi giữa unsigned và signed
 
 	- 1.5.Vì sao gọi là mã bù hai?
@@ -163,7 +161,9 @@ int main(void){
 
 ![alt text](image8.png)
 
-Nó hoạt động đúng như những gì mà sách nói cũng như kỳ vọng của tôi, ở đây theo chuẩn CPU hầu hết các thiết bị hiện đại thì nó đều dùng bù hai nên như bạn thấy trong ảnh là kết quả đúng là Tmin của 16bit, nhưng với theo cách nhìn của lập trình C điều này là UB vì phép toán này thuộc nhóm signed overflow
+Nó hoạt động đúng như những gì mà sách nói cũng như kỳ vọng của tôi
+
+> Ghi chú : ở đây theo chuẩn CPU hầu hết các thiết bị hiện đại thì nó đều dùng bù hai nên như bạn thấy trong ảnh là kết quả đúng là Tmin của 16bit, nhưng với theo cách nhìn của lập trình C điều này là UB vì phép toán này thuộc nhóm signed overflow
 
 tương tự với nhiều kiểu dữ liệu có dấu khác:
 
@@ -220,13 +220,11 @@ giờ đây bạn thấy điều gì lạ không, chúng ta lấy output ở ả
 
 chúng ta thấy có một điểm lạ, tại sao nó lại thêm `0xffff` vào ?
 
-**1.3.3.Tại sao call printf() nhưng transmit vào lại thêm 0xffff?**
-
 > đoạn này giải thích câu hỏi và thiên hướng về C có thể hơi ngoài lệ, bạn có thể bỏ qua nếu không quan tâm tới
 
 <details>
 	<summary>Lý do C lại thêm 0xffff</summary>
 
-- Bởi vì trong C có cơ chế interger promotion, khi ta truyền type short vào printf, nó sẽ tự động ép sang kiểu int. Mà, tại vì sao mà nó phải làm vậy?
+- Bởi vì trong C có cơ chế interger promotion, khi ta truyền type short vào printf, nó sẽ tự động ép sang kiểu int. Mà, tại vì sao nó phải làm vậy?
 
 </details>
