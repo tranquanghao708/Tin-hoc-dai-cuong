@@ -10,6 +10,10 @@
 
 	- 1.3.Miền giá trị biểu diễn được
 
+	- 1.3.1.Áp dụng thử vào C
+
+	- 1.3.2.Debug chương trình C
+
 	- 1.4.Chuyển đổi giữa unsigned và signed
 
 	- 1.5.Vì sao gọi là mã bù hai?
@@ -129,4 +133,36 @@ một vài lưu ý mà tôi được thẩm từ cuốn CSAPP là, miền giá t
 
 tất nhiên theo bản, bạn thấy nó có 8 số âm và 8 số không âm nên là `TMin = -8` và `TMax = 7` vì sao bạn thấy có 8 số âm và không âm đều đều cả hai nhưng TMin và TMax lại có sự chênh lệch là 1 đơn vị ?
 
-- Bạn thấy số 0? đó chính là lý do lớn nhất, số 0 theo hệ không âm nhưng lại không góp phần làm tăng giá trị bên dãy số dương nên TMax bị trừ 1
+- **Bạn thấy số 0?** đó chính là lý do lớn nhất, số 0 theo hệ không âm nhưng lại không góp phần làm tăng giá trị bên dãy số dương nên TMax bị trừ 1
+
+**1.3.1.Áp dụng thử vào C**
+
+- Nếu như ở trên là lý thuyết?, chúng ta tiến hành viết một chương trình C nhỏ để có thể tính toán các dãy bit trên hệ thống thật . Do hệ thống thật là 64 bit nhưng trong C các kiểu dữ liệu nó có 1 cái hay là có riêng cho nó một lượng byte riêng ví dụ `2 byte` là `short`, chúng ta sẽ ứng dụng short vào trong chương trình này. Cứ dịch ra trước `2 byte là 16 bit` và tính toán TMin và TMax trước đi đã
+
+Tmin của 16 bit = `-2**(N-1)` = -32768
+
+Tmax của 16 bit = `2**(N-1)-1` = 32767
+
+![alt text](image7.png)
+
+```c
+#include <stdio.h>
+
+int main(void){
+	short numbers = 32767; //là số Tmax của biến short 
+
+	numbers += 1; //lúc này sẽ ra Tmin của short
+
+	printf("%d\n",numbers);
+
+	return 0;
+}
+```
+
+![alt text](image8.png)
+
+Nó hoạt động đúng như những gì mà sách nói cũng như kỳ vọng của tôi
+
+**1.3.2.Debug chương trình C**
+
+chúng ta cùng debug nó xem cái gì nó đang thực sự diễn ra bên trong.
