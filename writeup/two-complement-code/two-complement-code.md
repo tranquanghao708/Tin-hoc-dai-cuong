@@ -247,4 +247,18 @@ Nếu như thế thì nó liên quan gì tới việc thêm 0xffff vào vaddr?
 | char |
 | short |
 
+Còn float thì bị ép thành double. Vậy ép xong rồi sao nó thêm `ffff`?
+
+- phải nhắc tới `sign extension` ở đây. Chúng ta cần biết sign extension là sao đã, nó là một loại có thể kéo các dải bit khi thực hiện tăng các bit lên, dễ hiểu hơn là tôi sẽ cho một bảng như sau :
+
+| bit gốc 		 | 1000 | 100 | 10 |
+|----------------|------|-----|----|
+| bit được tăng độ rộng toán hạng | 00001000 | 0000100 | 000010 |
+|----------------|-------------|-------------|----------|
+| sign extension | 11111000 | 1111100 | 111110 |
+
+ví dụ tôi cho nó là kiểu `a` đi, kiểu `a` có 4 bit là `0000 -> 1111`, bây giờ tôi cho kiểu `a` có giá trị là `Tmin = -2**(N-1)` là `1000` đó là hình hài bit của nó. Vậy khi kiểu `a` tôi ép kiểu nó sang kiểu `b` và kiểu b 8 bit (gấp đôi bit kiểu a) thì lúc này độ rộng toán hạng của nó là `11111000`. Đó là lý do đợt chạy debug vừa rồi nó thêm `0xffff`
+
+điều kiện để sign extension nó làm việc là MSB = 1 còn nếu MSB = 0 thì đó là của zero extension làm việc, nếu sign nó kéo dài với bit 1 thì zero kéo dài với bit 0 thôi
+
 </details>
