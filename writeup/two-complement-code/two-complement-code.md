@@ -211,4 +211,9 @@ giờ đây bạn thấy điều gì lạ không, chúng ta lấy output ở ả
 | Tmax | 111111111111111|
 |------|----------------|
 | Tmin |1000000000000000|
-        ^-------------------phần này chênh lệch 1 bit
+
+- Bạn thấy MSB của cả hai bị chênh lệch 1 đơn vị, và bây giờ chúng ta `ni` tiếp tới printf() được gọi xem cái gì diễn ra
+
+![alt text](image13.png)
+
+chúng ta thấy có một điểm lạ, tại sao nó lại thêm `0xffff` vào ?
