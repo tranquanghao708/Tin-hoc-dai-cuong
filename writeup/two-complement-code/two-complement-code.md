@@ -349,14 +349,7 @@ từ value trên bảng cộng tổng lại : `(-32768) + 16384 + 2048 + 1024 + 
 
 kết quả ra `-12345` chính xác với kết quả mà CSAPP cho. Suy ra, kết luận của tôi `binary giữ nguyên` là đúng
 
-Dạng bit của số -12345 (Short - 2 bytes):
-
- Bit Pattern:  1  1  0  0  1  1  1  1  1  1  0  0  0  1  1  1
-               |  |__________________________________________
-               |                       |
-           [Bit MSB]           [Các bit còn lại]
-  Signed:   -32768      +            45123            = -12345
-  Unsigned:  32768      +            45123            =  53191
+![alt text](image20.png)
 
 </details>
 
