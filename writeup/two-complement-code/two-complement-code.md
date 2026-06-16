@@ -163,6 +163,7 @@ int main(void){
 
 Nó hoạt động đúng như những gì mà sách nói cũng như kỳ vọng của tôi
 
+> [!NOTE]
 > Ghi chú : ở đây theo chuẩn CPU hầu hết các thiết bị hiện đại thì nó đều dùng bù hai nên như bạn thấy trong ảnh là kết quả đúng là Tmin của 16bit, nhưng với theo cách nhìn của lập trình C điều này là UB vì phép toán này thuộc nhóm signed overflow
 
 tương tự với nhiều kiểu dữ liệu có dấu khác:
