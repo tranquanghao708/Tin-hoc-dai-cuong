@@ -14,6 +14,8 @@
 
 	- 1.3.2.Debug chương trình C
 
+	- 1.3.3.Tại sao call printf() nhưng transmit vào lại thêm 0xffff?
+
 	- 1.4.Chuyển đổi giữa unsigned và signed
 
 	- 1.5.Vì sao gọi là mã bù hai?
@@ -217,3 +219,7 @@ giờ đây bạn thấy điều gì lạ không, chúng ta lấy output ở ả
 ![alt text](image13.png)
 
 chúng ta thấy có một điểm lạ, tại sao nó lại thêm `0xffff` vào ?
+
+**1.3.3.Tại sao call printf() nhưng transmit vào lại thêm 0xffff?**
+
+- Bởi vì trong C có cơ chế interger promotion, khi ta truyền type short vào printf, nó sẽ tự động ép sang kiểu int. Mà, tại vì sao mà nó phải làm vậy?
