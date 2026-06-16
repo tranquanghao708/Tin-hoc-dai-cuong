@@ -161,7 +161,7 @@ int main(void){
 
 ![alt text](image8.png)
 
-Nó hoạt động đúng như những gì mà sách nói cũng như kỳ vọng của tôi
+Nó hoạt động đúng như những gì mà sách nói cũng như kỳ vọng của tôi, ở đây theo chuẩn CPU hầu hết các thiết bị hiện đại thì nó đều dùng bù hai nên như bạn thấy trong ảnh là kết quả đúng là Tmin của 16bit, nhưng với theo cách nhìn của lập trình C điều này là UB vì phép toán này thuộc nhóm signed overflow
 
 **1.3.2.Debug chương trình C**
 
