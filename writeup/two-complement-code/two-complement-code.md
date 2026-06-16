@@ -227,4 +227,10 @@ chúng ta thấy có một điểm lạ, tại sao nó lại thêm `0xffff` vào
 
 - Bởi vì trong C có cơ chế interger promotion, khi ta truyền type short vào printf, nó sẽ tự động ép sang kiểu int. Mà, tại vì sao nó phải làm vậy?
 
+**trước hết chúng ta phải hiểu variadic function trong C là gì đã**
+
+- Variadic function trong C, có tác dụng nhận các tham số không cố định, thường được khai báo trong các tập tin tiêu đề header (.h) thường ở các thư viện, nhận diện chúng bằng cách thấy ký hiệu `...` ở các slot argument kế tiếp. Mục đích của cái này là tiếp nhận tất cả biến có kiểu dữ liệu khác nhau, ví dụ hình hài của nó theo tiêu đề được khai báo sẵn trong hệ thống linux :
+
+![alt text](image14.png)
+
 </details>
