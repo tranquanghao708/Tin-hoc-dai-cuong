@@ -254,7 +254,6 @@ Còn float thì bị ép thành double. Vậy ép xong rồi sao nó thêm `ffff
 | bit gốc 		 | 1000 | 100 | 10 |
 |----------------|------|-----|----|
 | bit được tăng độ rộng toán hạng | 00001000 | 0000100 | 000010 |
-|||||
 | sign extension | 11111000 | 1111100 | 111110 |
 
 ví dụ tôi cho nó là kiểu `a` đi, kiểu `a` có 4 bit là `0000 -> 1111`, bây giờ tôi cho kiểu `a` có giá trị là `Tmin = -2**(N-1)` là `1000` đó là hình hài bit của nó. Vậy khi kiểu `a` tôi ép kiểu nó sang kiểu `b` và kiểu b 8 bit (gấp đôi bit kiểu a) thì lúc này độ rộng toán hạng của nó là `11111000`. Đó là lý do đợt chạy debug vừa rồi nó thêm `0xffff`
