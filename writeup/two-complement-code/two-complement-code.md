@@ -264,9 +264,7 @@ flowchart LD
 	A[cho 8 bit gốc lúc đầu] --> |10000000|B{nếu bit gốc có MSB = 1}
 	B-->C{sign extension kéo độ rộng toán hạng của bit gốc thêm 4}
 	C-->|111110000000|D[kết quả]
-flowchart LR
 	B-->|Nếu bit có MSB = 0|E{zero extension kéo độ rộng toán hạng của bit gốc thêm 4}
-flowchart LD
 	E-->|ví dụ bit mẫu là : 0000010000|F[kết quả]
 ```
 
