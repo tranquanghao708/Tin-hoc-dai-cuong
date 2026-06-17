@@ -395,7 +395,7 @@ nếu x < $$\Large2^{N-1}$$ thì
 
 nếu x >= $$\Large2^{N-1}$$ thì
 
-    $$\Large x - 2^N$$
+$$\Large x - 2^N$$
 
 trong đó x là số bit , nếu như x mà nhỏ hơn Tmax của binary thì giữ nguyên còn mà nếu x mà lớn hơn Tmax của binary thì dùng công thức U2T .Ví dụ với cái bit như trên là 16 bit đi :
 
