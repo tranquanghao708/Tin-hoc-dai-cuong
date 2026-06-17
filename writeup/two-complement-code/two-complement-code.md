@@ -366,8 +366,8 @@ trong CSAPP có đề cập tới hai khái niệm này. T2U có nghĩa là chuy
 
 ```mermaid
 flowchart TD
-	A[số có dấu signed] --> B[T2U covert]
-	B --> C[số không dấu unsigned]
+	A[số có dấu <br>signed</br>] -->|-1| B{T2U covert}
+	B -->|11111111| C[số không dấu <br>unsigned</br>]
 ```
 
 trước hết ta có biểu thức của T2U là :
