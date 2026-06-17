@@ -397,7 +397,15 @@ $$\huge100 + 2^{16} = 65636$$ **(kết quả bị sai dù covert đúng)**
 
 Bạn thấy số đã chuyển sang số không dấu unsigned
 
-còn U2T thì ngược lại thôi, nó chuyển unsigned sang signed công thức của nó là :
+còn U2T thì ngược lại thôi, nó chuyển unsigned sang signed 
+
+```mermaid
+flowchart TD
+	A[số không dấu unsigned] --> B[U2T covert]
+	B[U2T covert] --> C[số có dấu signed]
+```
+
+công thức của nó là :
 
 nếu **x <** $$\Large2^{N-1}$$ thì
 
