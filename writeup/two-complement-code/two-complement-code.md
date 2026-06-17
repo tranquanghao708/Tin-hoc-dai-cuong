@@ -38,11 +38,11 @@ chúng ta thấy có cái `SIGMA`, đó là công thức tính giá trị của 
 
 - Do tôi không biết tính sigma, đơn giản là tôi chưa học tới chương trình đó nên tôi sẽ thực hiện tính nhị phân theo cái cách mà tôi được học như sau :
 
-giả sử tôi có một đoạn nhị phân 13 bit signed có MSB là 1 : `1001001100010`
+giả sử ta có một đoạn nhị phân 13 bit signed có MSB là 1 : `1001001100010`
 
 và một đoạn nhị phân 12 bit signed nhưng lại có MSB là 0 : `011011000100`
 
-vậy tôi sẽ tính toán nó để xem result của nó về số nguyên là gì :
+vậy ta sẽ tính toán nó để xem result của nó về số nguyên là gì :
 
 
 với đoạn nhị phân 1 là `1001001100010` ta lập bảng :
@@ -64,11 +64,11 @@ Trọng số lần lượt các bit : -4096 (Số MSB) , 2048, 1024...
 
 	- `N` : là các vị trí bit
 
-Ví dụ : $$2^{12} = 4096$$ (tại sao làm việc ở mức MSB signed mà tôi không thêm âm? do là mã bù hai bit MSB vốn đã có trọng số âm rồi) , bằng chứng cho kết quả :
+Ví dụ : $$\Large2^{12} = 4096$$ (tại sao làm việc ở mức MSB signed mà ta không thêm âm? do là mã bù hai bit MSB vốn đã có trọng số âm rồi) , bằng chứng cho kết quả :
 
 ![alt text](image1.png)
 
-- Để tiết kiệm thời gian, tôi chỉ lấy những bit vị trí có bit là `1` thôi, bởi vì bit 1 mới có thể đem đi và cộng lại và bit 0 thì không thể cộng lại vì 0 là tắt rồi nó không hoạt động nữa nên chúng ta bỏ. Dựa trên bảng bit thì chúng ta có những vị trí và trọng số của các bit 1 :
+- Để tiết kiệm thời gian, ta chỉ lấy những bit vị trí có bit là `1` thôi, chỉ xét các bit có giá trị 1 vì các bit 0 không đóng góp vào tổng trọng số. Dựa trên bảng bit thì chúng ta có những vị trí và trọng số của các bit 1 :
 
 | Bit vị trí | 12 | 9 | 6 | 5 | 1 |
 |------------|----|---|---|---|---|
@@ -106,7 +106,7 @@ tính tổng lại : `1024 + 512 + 128 + 64 + 4 = 1732`
 
 - 1. là chúng ta đếm thủ công hoặc là dịch binary ra ở các trang website, hoặc là dùng lệnh để dịch ra số nguyên
 
-- 2. là chúng ta sử dụng biểu thức huyền thoại mà kiến trúc máy tính, CSAPP thường hay đề cập tới. Tính số nguyên cao nhất của binary 4 bit, ở đây tôi dùng công thức huyền thoại là $$\Large2^{N}-1$$, nói sơ qua về công thức này thì:
+- 2. là chúng ta sử dụng biểu thức mà kiến trúc máy tính, CSAPP thường hay đề cập tới. Tính số nguyên cao nhất của binary 4 bit, ở đây ta dùng công thức là $$\Large2^{N}-1$$, nói sơ qua về công thức này thì:
 
 	- `2` : là hệ cơ số của binary
 
@@ -122,18 +122,18 @@ Và chúng ta tiến hành thực hiện tính toán : $$\Large2^{N-1}-1 = 7$$ v
 
 vậy còn giá trị nhỏ nhất thì sao?
 
-- Giá trị nhỏ nhất là phần mà bit MSB chạm 1, nghĩa là ta có `0111` là phần bit lớn nhất của số dương theo hệ có dấu signed rồi nhưng ta cộng 1 bit nữa là `1000` MSB = 1 , số âm là `-8` thì đó chính xác là phần nhỏ nhất rồi. Tương đương với công thức $$\Large-2^{N-1}$$
+- Giá trị nhỏ nhất là phần mà bit MSB chạm 1, nghĩa là ta có `0111` là phần bit lớn nhất của số dương theo hệ có dấu signed rồi nhưng ta cộng 1 bit nữa là `1000` MSB = 1 , số âm là `-8` thì đó chính là phần nhỏ nhất rồi. Tương đương với công thức $$\Large-2^{N-1}$$
 
 vậy từ các phép tính trên thì miền giá trị là `[-8 , 7]` theo số nguyên
 
-một vài lưu ý mà tôi được thẩm từ cuốn CSAPP là, miền giá trị theo hệ signed mã bù hai là **không đối xứng** ví dụ tôi có:
+một vài lưu ý mà tôi được thẩm từ cuốn CSAPP là, miền giá trị theo hệ signed mã bù hai là **không đối xứng** ví dụ ta có:
 
 | miền giá trị 4 bit | -8 | -7 | -6 | -5 | -4 | -3 | -2 | -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 |--------------------|----|----|----|----|----|----|----|----|---|---|---|---|---|---|---|---|
 
 tất nhiên theo bản, bạn thấy nó có 8 số âm và 8 số không âm nên là `TMin = -8` và `TMax = 7` vì sao bạn thấy có 8 số âm và không âm đều đều cả hai nhưng TMin và TMax lại có sự chênh lệch là 1 đơn vị ?
 
-- **Bạn thấy số 0?** đó chính là lý do lớn nhất, số 0 theo hệ không âm nhưng lại không góp phần làm tăng giá trị bên dãy số dương nên TMax bị trừ 1
+- **Nguyên nhân chính là số 0** số 0 thuộc miền không âm nhưng không làm tăng giá trị Tmax
 
 **1.3.1.Áp dụng thử vào C**
 
@@ -185,7 +185,7 @@ và
 
 > start
 
-xong lệnh start nó sẽ thực thi tới đầu main nếu program còn symbol và chưa bị strip hoàn toàn 
+xong lệnh start nó sẽ thực thi tới đầu main nếu program còn symbol và chưa bị strip 
 
 ![alt text](image9.png)
 
@@ -201,15 +201,15 @@ xong lệnh start nó sẽ thực thi tới đầu main nếu program còn symbo
    0x55555555514e <main+21>    mov    word ptr [rbp - 2], ax         [0x7fffffffe54e] <= 0x8000
 ```
 
-ở đây tại instrution `0x5147` ta thấy thanh ghi eax hiện tại đang chứa `0x7fff` chính là Tmax của kiểu dữ liệu 16 bit, để kết luận 0x7fff chính xác là Tmax thì ta có bằng chứng như sau :
+ở đây tại instrution `0x5147` ta thấy thanh ghi eax hiện tại đang chứa `0x7fff` chính là Tmax của kiểu dữ liệu 16 bit, để kết luận 0x7fff chính là Tmax thì ta có bằng chứng như sau :
 
 ![alt text](image11.png)
 
-bạn nhìn thấy nó là một dãy `111111111111111` và hiểu lầm MSB = 1 rồi mà đúng không? thực chất là chưa, giờ đây tới lượt instrution `0x514e` ta thấy sau khi nó cộng một đơn vị thì nó có giá trị `0x8000` đó chính là Tmin của binary 16bit, chứng minh nó là Tmin ta có bằng chứng như sau: 
+bạn thấy nó là dãy `111111111111111` và kết luận MSB = 1 rồi đúng không? tuy nhiên kết luận đó chưa đúng, tiếp theo xét instrution `0x514e` ta thấy sau khi nó cộng một đơn vị thì nó có giá trị `0x8000` đó chính là Tmin của binary 16bit, chứng minh nó là Tmin ta có bằng chứng như sau: 
 
 ![alt text](image12.png)
 
-giờ đây bạn thấy điều gì lạ không, chúng ta lấy output ở ảnh 0x8000 là `1000000000000000` đi so sánh với ảnh trước là `111111111111111`, bạn thấy nó chênh lệch 1 đơn vị và phần `111111111111111` nó thấp hơn 1 đơn vị. Để dễ dàng cho việc so sánh tôi sẽ sắp xếp nó và thêm số 0 vào cho chuẩn 16 bit  :
+giờ đây quan sát hai giá trị tmax và tmin , chúng ta lấy output ở ảnh 0x8000 là `1000000000000000` đi so sánh với ảnh trước là `111111111111111`, bạn thấy nó chênh lệch 1 đơn vị và phần `111111111111111` nó thấp hơn 1 đơn vị. Để dễ dàng cho việc so sánh ta sẽ sắp xếp nó và thêm số 0 vào cho chuẩn 16 bit  :
 
 | Tmax |0111111111111111|
 |------|----------------|
@@ -257,7 +257,7 @@ Còn float thì bị ép thành double. Vậy ép xong rồi sao nó thêm `ffff
 | bit được tăng độ rộng toán hạng | 00001000 | 0000100 | 000010 |
 | sign extension | 11111000 | 1111100 | 111110 |
 
-ví dụ tôi cho nó là kiểu `a` đi, kiểu `a` có 4 bit là `0000 -> 1111`, bây giờ tôi cho kiểu `a` có giá trị là $$\LargeTmin = -2^{N-1}$$ là `1000` đó là hình hài bit của nó. Vậy khi kiểu `a` tôi ép kiểu nó sang kiểu `b` và kiểu b 8 bit (gấp đôi bit kiểu a) thì lúc này độ rộng toán hạng của nó là `11111000`. Đó là lý do đợt chạy debug vừa rồi nó thêm `0xffff` vì kiểu `short` theo quy định của C nó được ép sang kiểu `int` mà int gấp đôi short là 4 byte trong khi short có 2 byte thôi 
+ví dụ tôi cho nó là kiểu `a` đi, kiểu `a` có 4 bit là `0000 -> 1111`, bây giờ tôi cho kiểu `a` có giá trị là $$\LargeTmin = -2^{N-1}$$ là `1000` đó là hình hài bit của nó. Vậy khi kiểu `a` ta ép kiểu nó sang kiểu `b` và kiểu b 8 bit (gấp đôi bit kiểu a) thì lúc này độ rộng toán hạng của nó là `11111000`. Đó là lý do đợt chạy debug vừa rồi nó thêm `0xffff` vì kiểu `short` theo quy định của C nó được ép sang kiểu `int` mà int gấp đôi short là 4 byte trong khi short có 2 byte thôi 
 
 điều kiện để sign extension nó làm việc là MSB = 1 còn nếu MSB = 0 thì đó là của zero extension làm việc, nếu sign nó kéo dài với bit 1 thì zero kéo dài với bit 0 thôi
 
@@ -302,7 +302,7 @@ For example, consider the following code:
 
 > v = -12345, uv = 53191
 
-Chúng ta có thể hiểu theo minh họa là, khi ta khai báo cái biến `v` với số âm = -12345 thì nó vẫn là số âm, nhưng khi ta ép nó sang unsigned là `unsigned short uv = (unsigned short) v;` thì nó chuyển sang gía trị khác là số dương nhưng số bit vẫn giữ nguyên. Vậy bằng chứng nào mà tôi dám nói số bit giữ nguyên? tôi sẽ chứng minh nó. Ở đây sách đã cho output và đoạn mã, tôi sẽ thử thực thi lại xem ra output terminal và chứng minh nó :
+Chúng ta có thể hiểu theo minh họa là, khi ta khai báo cái biến `v` với số âm = -12345 thì nó vẫn là số âm, nhưng khi ta ép nó sang unsigned là `unsigned short uv = (unsigned short) v;` thì nó chuyển sang gía trị khác là số dương nhưng số bit vẫn giữ nguyên. Vậy bằng chứng nào mà tôi dám nói số bit giữ nguyên? ta sẽ chứng minh nó. Ở đây sách đã cho output và đoạn mã, ta sẽ thử thực thi lại xem ra output terminal và chứng minh nó :
 
 > phần chứng minh, nó có thể hơi ngoài lề bạn có thể bỏ qua
 
@@ -328,7 +328,7 @@ int main(void){
 
 ![alt text](image17.png)
 
-Như trong ảnh, output đã chính xác như sách đưa. Vậy tới phần chứng minh là binary có phải giữ nguyên như tôi nói không, hay các lý thuyết như trong sách có vận hành đúng không tôi sẽ chứng minh nó bằng cách dịch số nguyên không dấu sang nhị phân và thực hiện tính toán :
+Như trong ảnh, output đã chính xác như sách đưa. Vậy tới phần chứng minh là binary có phải giữ nguyên như tôi nói không, hay các lý thuyết như trong sách có vận hành đúng không ta sẽ chứng minh nó bằng cách dịch số nguyên không dấu sang nhị phân và thực hiện tính toán :
 
 > echo "obase=2; $((53191))" | bc
 
@@ -360,7 +360,7 @@ Hãy thử tính nó bằng T2U và U2T
 
 ![alt text](image21.png)
 
-trong CSAPP có đề cập tới hai khái niệm này vậy tôi cần biết nó là gì đã. Ở đây, T2U có nghĩa là chuyển số có dấu signed sang số không dấu unsigned ở đây chúng ta cũng vận dụng luôn cái này vào phần mà tôi đang chứng minh, trước hết ta có biểu thức của T2U là :
+trong CSAPP có đề cập tới hai khái niệm này vậy ta cần biết nó là gì đã. Ở đây, T2U có nghĩa là chuyển số có dấu signed sang số không dấu unsigned ở đây chúng ta cũng vận dụng luôn cái này vào phần mà ta đang chứng minh, trước hết ta có biểu thức của T2U là :
 
 nếu **x < 0** thì
 
@@ -373,19 +373,19 @@ nếu **x >= 0** thì
 trong đó x là **giá trị số nguyên N** là số bit $$\Large2^{N}$$ là biểu thức **tính gía trị bit tràn** ví dụ 4 bit nó sẽ tính `10000` là bao nhiêu cái $$\Large2^{N}$$ khác với $$\Large2^{N}-1$$ là nó tính **số bit tràn** `10000` còn biểu thức `-1` kia ý là **tính toàn diện bit** `1111`. Nói sơ qua thì T2U chủ yếu covert cái số có dấu (signed) sang không dấu (unsigned) điển hình là số âm sang số dương, nếu số âm thì nó sẽ chuyển đổi còn nếu số dương thì nó giữ nguyên gồm cả 0.
 
 
-số bit của short như tôi đề cập là 16bit, vậy tôi biết số có dấu Tmin của cái 16bit này là $$\Large-2^{N - 1} = -32768$$ do `-32768` hoàn toàn bé hơn `0` nên bây giờ tôi muốn chuyển chúng sang hệ không dấu unsigned thì tôi dùng biểu thức T2U :
+số bit của short như ta đề cập là 16bit, vậy ta biết số có dấu Tmin của cái 16bit này là $$\Large-2^{N - 1} = -32768$$ do `-32768` bé hơn `0` nên bây giờ ta muốn chuyển chúng sang hệ không dấu unsigned thì ta dùng biểu thức T2U :
 
 $$\huge(-32768) + 2^{16} = 32768$$
 
- còn nếu mà số nguyên như 100 lớn hơn 0 thì giữ nguyên, không tính. Nó sẽ là kết quả bị sai dù covert đúng hay không nhưng về bản chất là sai hoàn toàn, không phải vì biểu thức sai mà vì điều kiện không cho phép áp dụng biểu thức với điều đó
+ còn nếu mà số nguyên như 100 lớn hơn 0 thì giữ nguyên, không tính. Nó sẽ là kết quả bị sai dù covert đúng hay không nhưng về bản chất là sai, không phải vì biểu thức sai mà vì điều kiện không cho phép áp dụng biểu thức với điều đó
 
-Vậy ví dụ tôi thử tính xem chuyện gì xảy ra biết rõ ràng 100 lớn hơn 0, điều kiện ko cho phép vậy tôi vẫn cứ tính xem có gì?
+Vậy ví dụ ta thử tính xem chuyện gì xảy ra biết rõ ràng 100 lớn hơn 0, điều kiện ko cho phép vậy ta vẫn cứ tính xem có gì?
 
 $$\huge100 + 2^{16} = 65636$$ **(kết quả bị sai dù covert đúng)**
 
 ![alt text](image22.png)
 
-Bạn thấy số đã chuyển sang số không dấu unsigned hoàn toàn
+Bạn thấy số đã chuyển sang số không dấu unsigned
 
 còn U2T thì ngược lại thôi, nó chuyển unsigned sang signed công thức của nó là :
 
@@ -399,15 +399,15 @@ $$\Large x - 2^N$$
 
 trong đó x là **số bit** , nếu như x mà **nhỏ hơn Tmax** của binary thì giữ nguyên còn mà nếu x mà **lớn hơn Tmax** của binary thì dùng công thức U2T .Ví dụ với cái bit như trên là 16 bit đi :
 
-ở đây cho x = 32768 , 32768 **hoàn toàn bằng** với $$\Large2^{N-1} = 2^{16-1} = 32768$$ lúc này ta mới dùng biểu thức U2T :
+ở đây cho x = 32768 , 32768 **bằng** với $$\Large2^{N-1} = 2^{16-1} = 32768$$ lúc này ta mới dùng biểu thức U2T :
 
 $$\huge32768 - 2^{16} = -32768$$ **(Bạn thấy nó đã covert sang âm)**
 
 ![alt text](image23.png)
 
-còn mà nếu tôi dùng số nguyên bé hơn Tmax của binary thì không được, ví dụ tôi có số nguyên là 100 bé hơn $$\Large2^{N-1} = 2^{16-1} = 32768$$ thì thử tính :
+còn mà nếu ta dùng số nguyên bé hơn Tmax của binary thì không được, ví dụ ta có số nguyên là 100 bé hơn $$\Large2^{N-1} = 2^{16-1} = 32768$$ thì thử tính :
 
-$$\huge100 - 2^{16} = -65436$$ **(rõ ràng là sai hoàn toàn dù vẫn là convert nhưng kết quả nó bị sai)**
+$$\huge100 - 2^{16} = -65436$$ **(suy ra nó sai dù vẫn là convert nhưng kết quả nó bị sai)**
 
 Nên là hai cái U2T và T2U đều có điều kiện rõ ràng mới có thể tính ra kết quả chính xác được
 
