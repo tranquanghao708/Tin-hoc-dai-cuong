@@ -56,7 +56,7 @@ Trọng số lần lượt các bit : -4096 (Số MSB) , 2048, 1024...
 
 - cứ thế chia 2 lần lượt tới bit LSB, hoặc đơn giản dùng lũy thừa:
 
- $$2^{N}$$
+ $$\Large2^{N}$$
 
 - trong đó :
 
@@ -106,23 +106,23 @@ tính tổng lại : `1024 + 512 + 128 + 64 + 4 = 1732`
 
 - 1. là chúng ta đếm thủ công hoặc là dịch binary ra ở các trang website, hoặc là dùng lệnh để dịch ra số nguyên
 
-- 2. là chúng ta sử dụng biểu thức huyền thoại mà kiến trúc máy tính, CSAPP thường hay đề cập tới. Tính số nguyên cao nhất của binary 4 bit, ở đây tôi dùng công thức huyền thoại là $$2^{N}-1$$, nói sơ qua về công thức này thì:
+- 2. là chúng ta sử dụng biểu thức huyền thoại mà kiến trúc máy tính, CSAPP thường hay đề cập tới. Tính số nguyên cao nhất của binary 4 bit, ở đây tôi dùng công thức huyền thoại là $$\Large2^{N}-1$$, nói sơ qua về công thức này thì:
 
 	- `2` : là hệ cơ số của binary
 
 	- `N` : là số lượng bit ví dụ ta muốn tính 4 bit như `0000 -> 1111` thì ta đưa số 4 vào
 
-	- `-1` : bởi vì ta đếm từ số 0, nên N bit tạo ra hai giá trị khác nhau chênh lệch là 1.Nên giá trị lớn nhất của dãy binary là 2^{N}-1
+	- `-1` : bởi vì ta đếm từ số 0, nên N bit tạo ra hai giá trị khác nhau chênh lệch là 1.Nên giá trị lớn nhất của dãy binary là $$\Large2^{N}-1$$
 
-Như thế công thức này dùng để tính giá trị của dãy nhị phân không dấu unsigned là `1111` nhưng chúng ta muốn tính dãy nhị phân có dấu signed là `0111` mà ? vậy thì chúng ta thực hiện trừ 1 thêm đi cho phép lũy thừa, phép toán chỉ xem và tính các dãy bit còn lại và không tính bit MSB , kết quả của biểu thức sẽ như vậy : $$2^{N-1}-1$$
+Như thế công thức này dùng để tính giá trị của dãy nhị phân không dấu unsigned là `1111` nhưng chúng ta muốn tính dãy nhị phân có dấu signed là `0111` mà ? vậy thì chúng ta thực hiện trừ 1 thêm đi cho phép lũy thừa, phép toán chỉ xem và tính các dãy bit còn lại và không tính bit MSB , kết quả của biểu thức sẽ như vậy : $$\Large2^{N-1}-1$$
 
-Và chúng ta tiến hành thực hiện tính toán : $$2^{N-1}-1 = 7$$ và giá trị 7 này chính là giá trị lớn nhất của hệ binary 4 bit
+Và chúng ta tiến hành thực hiện tính toán : $$\Large2^{N-1}-1 = 7$$ và giá trị 7 này chính là giá trị lớn nhất của hệ binary 4 bit
 
 ![alt text](image6.png)
 
 vậy còn giá trị nhỏ nhất thì sao?
 
-- Giá trị nhỏ nhất là phần mà bit MSB chạm 1, nghĩa là ta có `0111` là phần bit lớn nhất của số dương theo hệ có dấu signed rồi nhưng ta cộng 1 bit nữa là `1000` MSB = 1 , số âm là `-8` thì đó chính xác là phần nhỏ nhất rồi. Tương đương với công thức $$-2^{N-1}$$
+- Giá trị nhỏ nhất là phần mà bit MSB chạm 1, nghĩa là ta có `0111` là phần bit lớn nhất của số dương theo hệ có dấu signed rồi nhưng ta cộng 1 bit nữa là `1000` MSB = 1 , số âm là `-8` thì đó chính xác là phần nhỏ nhất rồi. Tương đương với công thức $$\Large-2^{N-1}$$
 
 vậy từ các phép tính trên thì miền giá trị là `[-8 , 7]` theo số nguyên
 
@@ -139,9 +139,9 @@ tất nhiên theo bản, bạn thấy nó có 8 số âm và 8 số không âm n
 
 - Nếu như ở trên là lý thuyết?, chúng ta tiến hành viết một chương trình C nhỏ để có thể tính toán các dãy bit trên hệ thống thật . Do hệ thống thật là 64 bit nhưng trong C các kiểu dữ liệu nó có 1 cái hay là có riêng cho nó một lượng byte riêng ví dụ `2 byte` là `short`, chúng ta sẽ ứng dụng short vào trong chương trình này. Cứ dịch ra trước `2 byte là 16 bit` và tính toán TMin và TMax trước đi đã
 
-Tmin của 16 bit = $$-2^{N-1}$$ = -32768
+Tmin của 16 bit = $$\Large-2^{N-1}$$ = -32768
 
-Tmax của 16 bit = $$2^{N-1}-1$$ = 32767
+Tmax của 16 bit = $$\Large2^{N-1}-1$$ = 32767
 
 ![alt text](image7.png)
 
@@ -257,7 +257,7 @@ Còn float thì bị ép thành double. Vậy ép xong rồi sao nó thêm `ffff
 | bit được tăng độ rộng toán hạng | 00001000 | 0000100 | 000010 |
 | sign extension | 11111000 | 1111100 | 111110 |
 
-ví dụ tôi cho nó là kiểu `a` đi, kiểu `a` có 4 bit là `0000 -> 1111`, bây giờ tôi cho kiểu `a` có giá trị là $$Tmin = -2^{N-1}$$ là `1000` đó là hình hài bit của nó. Vậy khi kiểu `a` tôi ép kiểu nó sang kiểu `b` và kiểu b 8 bit (gấp đôi bit kiểu a) thì lúc này độ rộng toán hạng của nó là `11111000`. Đó là lý do đợt chạy debug vừa rồi nó thêm `0xffff` vì kiểu `short` theo quy định của C nó được ép sang kiểu `int` mà int gấp đôi short là 4 byte trong khi short có 2 byte thôi 
+ví dụ tôi cho nó là kiểu `a` đi, kiểu `a` có 4 bit là `0000 -> 1111`, bây giờ tôi cho kiểu `a` có giá trị là $$\LargeTmin = -2^{N-1}$$ là `1000` đó là hình hài bit của nó. Vậy khi kiểu `a` tôi ép kiểu nó sang kiểu `b` và kiểu b 8 bit (gấp đôi bit kiểu a) thì lúc này độ rộng toán hạng của nó là `11111000`. Đó là lý do đợt chạy debug vừa rồi nó thêm `0xffff` vì kiểu `short` theo quy định của C nó được ép sang kiểu `int` mà int gấp đôi short là 4 byte trong khi short có 2 byte thôi 
 
 điều kiện để sign extension nó làm việc là MSB = 1 còn nếu MSB = 0 thì đó là của zero extension làm việc, nếu sign nó kéo dài với bit 1 thì zero kéo dài với bit 0 thôi
 
@@ -370,18 +370,18 @@ nếu **x >= 0** thì
 
  vẫn **giữ nguyên x**
 
-trong đó x là **giá trị số nguyên N** là số bit $$2^{N}$$ là biểu thức **tính gía trị bit tràn** ví dụ 4 bit nó sẽ tính `10000` là bao nhiêu cái $$2^{N}$$ khác với $$2^{N}-1$$ là nó tính **số bit tràn** `10000` còn biểu thức `-1` kia ý là **tính toàn diện bit** `1111`. Nói sơ qua thì T2U chủ yếu covert cái số có dấu (signed) sang không dấu (unsigned) điển hình là số âm sang số dương, nếu số âm thì nó sẽ chuyển đổi còn nếu số dương thì nó giữ nguyên gồm cả 0.
+trong đó x là **giá trị số nguyên N** là số bit $$\Large2^{N}$$ là biểu thức **tính gía trị bit tràn** ví dụ 4 bit nó sẽ tính `10000` là bao nhiêu cái $$\Large2^{N}$$ khác với $$\Large2^{N}-1$$ là nó tính **số bit tràn** `10000` còn biểu thức `-1` kia ý là **tính toàn diện bit** `1111`. Nói sơ qua thì T2U chủ yếu covert cái số có dấu (signed) sang không dấu (unsigned) điển hình là số âm sang số dương, nếu số âm thì nó sẽ chuyển đổi còn nếu số dương thì nó giữ nguyên gồm cả 0.
 
 
-số bit của short như tôi đề cập là 16bit, vậy tôi biết số có dấu Tmin của cái 16bit này là $$-2^{N - 1} = -32768$$ do `-32768` hoàn toàn bé hơn `0` nên bây giờ tôi muốn chuyển chúng sang hệ không dấu unsigned thì tôi dùng biểu thức T2U :
+số bit của short như tôi đề cập là 16bit, vậy tôi biết số có dấu Tmin của cái 16bit này là $$\Large-2^{N - 1} = -32768$$ do `-32768` hoàn toàn bé hơn `0` nên bây giờ tôi muốn chuyển chúng sang hệ không dấu unsigned thì tôi dùng biểu thức T2U :
 
-$$(-32768) + 2^{16} = 32768$$
+$$\huge(-32768) + 2^{16} = 32768$$
 
  còn nếu mà số nguyên như 100 lớn hơn 0 thì giữ nguyên, không tính. Nó sẽ là kết quả bị sai dù covert đúng hay không nhưng về bản chất là sai hoàn toàn, không phải vì biểu thức sai mà vì điều kiện không cho phép áp dụng biểu thức với điều đó
 
 Vậy ví dụ tôi thử tính xem chuyện gì xảy ra biết rõ ràng 100 lớn hơn 0, điều kiện ko cho phép vậy tôi vẫn cứ tính xem có gì?
 
-$$100 + 2^{16} = 65636$$ **(kết quả bị sai dù covert đúng)**
+$$\huge100 + 2^{16} = 65636$$ **(kết quả bị sai dù covert đúng)**
 
 ![alt text](image22.png)
 
@@ -389,21 +389,21 @@ Bạn thấy số đã chuyển sang số không dấu unsigned hoàn toàn
 
 còn U2T thì ngược lại thôi, nó chuyển unsigned sang signed công thức của nó là :
 
-nếu x < $$2^{N-1}$$ thì
+nếu x < $$\Large2^{N-1}$$ thì
     giữ nguyên
 
-nếu x >= $$2^{N-1}$$ thì
-    $$x - 2^N$$
+nếu x >= $$\Large2^{N-1}$$ thì
+    $$\Largex - 2^N$$
 
 trong đó x là số bit , nếu như x mà nhỏ hơn Tmax của binary thì giữ nguyên còn mà nếu x mà lớn hơn Tmax của binary thì dùng công thức U2T .Ví dụ với cái bit như trên là 16 bit đi :
 
-ở đây cho x = 32768 , 32768 hoàn toàn bằng với $$2^{N-1} = 2^{16-1} = 32768$$ lúc này ta mới dùng biểu thức U2T :
+ở đây cho x = 32768 , 32768 hoàn toàn bằng với $$\Large2^{N-1} = 2^{16-1} = 32768$$ lúc này ta mới dùng biểu thức U2T :
 
-$$32768 - 2^{16} = -32768$$ **(Bạn thấy nó đã covert sang âm)**
+$$\huge32768 - 2^{16} = -32768$$ **(Bạn thấy nó đã covert sang âm)**
 
-còn mà nếu tôi dùng số nguyên bé hơn Tmax của binary thì không được, ví dụ tôi có số nguyên là 100 bé hơn $$2^{N-1} = 2^{16-1} = 32768$$ thì thử tính :
+còn mà nếu tôi dùng số nguyên bé hơn Tmax của binary thì không được, ví dụ tôi có số nguyên là 100 bé hơn $$\Large2^{N-1} = 2^{16-1} = 32768$$ thì thử tính :
 
-$$100 - 2^{16} = -65436$$ **(rõ ràng là sai hoàn toàn dù vẫn là convert nhưng kết quả nó bị sai)**
+$$\huge100 - 2^{16} = -65436$$ **(rõ ràng là sai hoàn toàn dù vẫn là convert nhưng kết quả nó bị sai)**
 
 Nên là hai cái U2T và T2U đều có điều kiện rõ ràng mới có thể tính ra kết quả chính xác được
 
