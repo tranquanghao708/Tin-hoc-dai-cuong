@@ -461,6 +461,37 @@ int main(void){
 
 ![alt text](image25.png)
 
+như trên ảnh, lỗi đã xảy ra. Lý do sao nó xảy ra thì chúng ta tiến hành debug nó 
+
+> gdb -q ./test_type
+
+và
+
+> start
+
+chúng ta sẽ ở instrution là `0x55555555513d` nghĩa là bắt đầu logic sau khi đã push và lưu thanh ghi rbp.
+
+![alt text](image26.png)
+
+ở đây có điều bất ngờ là trong C gốc có điều kiện so sánh if nhưng disas ra lại thấy như này 
+
+![alt text](image27.png)
+
+nó hardcode mặc định trong chương trình là `"ko hợp lệ, lỗi diễn giải\n"` với puts trực tiếp và thoát, ko có điều kiện nào ở trong đó. Chứng minh vấn đề là đây nhưng quan trọng nhất là tại sao nó lại hardcode, chúng ta tiến hành debug quá trình compile gcc biên dịch chương trình của chúng ta ra sao.
+
+> gcc -save-temps -fdump-tree-original test_type.c -o test_type
+
+chúng sẽ biên dịch lại nhưng sẽ tạo các file soi quá trình biên dịch như sau :
+
+![alt text](image28.png)
+
+- file đuôi .i : là file ghi lại compiler xóa hết ghi chú comment và chỉ thị có dấu như # như #include #define, chúng sẽ chèn tất cả code thư viện lên đầu dòng mã.
+
+- file đuôi .s : là file hợp ngữ assembly
+
+- file đuôi .o : là file nhị phân liên kết, dùng để liên kết bằng ld 
+
+
 </details>
 
 > CPU nó không giữ một đống số nguyên hay gì hết, nó chỉ giữ một đống bit chỉ 0 và 1.
