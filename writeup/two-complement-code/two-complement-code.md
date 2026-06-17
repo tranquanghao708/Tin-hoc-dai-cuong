@@ -360,7 +360,7 @@ Hãy thử tính nó bằng T2U và U2T
 
 ![alt text](image21.png)
 
-trong CSAPP có đề cập tới hai khái niệm này vậy ta cần biết nó là gì đã. Ở đây, T2U có nghĩa là chuyển số có dấu signed sang số không dấu unsigned ở đây chúng ta cũng vận dụng luôn cái này vào phần mà ta đang chứng minh, trước hết ta có biểu thức của T2U là :
+trong CSAPP có đề cập tới hai khái niệm này. T2U có nghĩa là chuyển số có dấu signed sang số không dấu unsigned trước hết ta có biểu thức của T2U là :
 
 nếu **x < 0** thì
 
@@ -373,11 +373,11 @@ nếu **x >= 0** thì
 trong đó x là **giá trị số nguyên N** là số bit $$\Large2^{N}$$ là biểu thức **tính gía trị bit tràn** ví dụ 4 bit nó sẽ tính `10000` là bao nhiêu cái $$\Large2^{N}$$ khác với $$\Large2^{N}-1$$ là nó tính **số bit tràn** `10000` còn biểu thức `-1` kia ý là **tính toàn diện bit** `1111`. Nói sơ qua thì T2U chủ yếu covert cái số có dấu (signed) sang không dấu (unsigned) điển hình là số âm sang số dương, nếu số âm thì nó sẽ chuyển đổi còn nếu số dương thì nó giữ nguyên gồm cả 0.
 
 
-số bit của short như ta đề cập là 16bit, vậy ta biết số có dấu Tmin của cái 16bit này là $$\Large-2^{N - 1} = -32768$$ do `-32768` bé hơn `0` nên bây giờ ta muốn chuyển chúng sang hệ không dấu unsigned thì ta dùng biểu thức T2U :
+số bit của short là 16bit, vậy ta biết số có dấu Tmin của 16bit là $$\Large-2^{16 - 1} = -32768$$ do `-32768` bé hơn `0`, bây giờ ta muốn chuyển chúng sang hệ không dấu unsigned thì ta dùng biểu thức T2U :
 
 $$\huge(-32768) + 2^{16} = 32768$$
 
- còn nếu mà số nguyên như 100 lớn hơn 0 thì giữ nguyên, không tính. Nó sẽ là kết quả bị sai dù covert đúng hay không nhưng về bản chất là sai, không phải vì biểu thức sai mà vì điều kiện không cho phép áp dụng biểu thức với điều đó
+còn nếu mà số nguyên như 100 lớn hơn 0 thì giữ nguyên. Nó sẽ là kết quả bị sai dù covert đúng hay không nhưng về bản chất là sai, không phải vì biểu thức sai mà vì điều kiện không cho phép áp dụng biểu thức với điều đó
 
 Vậy ví dụ ta thử tính xem chuyện gì xảy ra biết rõ ràng 100 lớn hơn 0, điều kiện ko cho phép vậy ta vẫn cứ tính xem có gì?
 
