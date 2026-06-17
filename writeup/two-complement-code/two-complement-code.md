@@ -401,8 +401,11 @@ còn U2T thì ngược lại thôi, nó chuyển unsigned sang signed
 
 ```mermaid
 flowchart LR
-    A([Số không dấu <br><b>Unsigned</b>]) -->|Đầu vào| B{Quá trình <br><b>U2T Convert</b>}
-    B -->|Đầu ra| C[Số có dấu <br><b>Signed / Bù 2</b>]
+    A[Số không dấu <br><b>Unsigned</b>] -->|11111111| B{U2T Convert}
+    B -->|-1| C[Số có dấu <br><b>Signed</b>]
+
+    linkStyle 0 stroke:#000,stroke-width:2px,stroke-dasharray: 6, animation: flowIn 0.5s linear infinite;
+    linkStyle 1 stroke:#000,stroke-width:2px,stroke-dasharray: 6, animation: flowOut 0.5s linear infinite;
 ```
 
 công thức của nó là :
