@@ -403,9 +403,6 @@ còn U2T thì ngược lại thôi, nó chuyển unsigned sang signed
 flowchart LR
     A([Số không dấu <br><b>Unsigned</b>]) -->|Đầu vào| B{Quá trình <br><b>U2T Convert</b>}
     B -->|Đầu ra| C[Số có dấu <br><b>Signed / Bù 2</b>]
-
-    linkStyle 0 stroke:#e67e22,stroke-width:3px,stroke-dasharray: 5, animation: action 1s linear infinite;
-    linkStyle 1 stroke:#3498db,stroke-width:3px,stroke-dasharray: 5, animation: action 1s linear infinite;
 ```
 
 công thức của nó là :
