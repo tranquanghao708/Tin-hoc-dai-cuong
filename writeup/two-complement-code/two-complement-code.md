@@ -588,4 +588,4 @@ bỏ bit ngoài đi, chúng ta có kết quả là 0. Đó là bù hai
 
 > Phần này chủ yếu là lịch sử của bù hai
 
-# 2.Tràn số
+# Tràn số
