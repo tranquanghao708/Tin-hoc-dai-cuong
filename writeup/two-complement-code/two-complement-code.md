@@ -1,5 +1,9 @@
 # CSAPP : mã bù hai và tràn số
 
+> bắt đầu viết vào ngày : 15/6/2026
+
+> hoàn thành vào ngày : 
+
 **mục lục**
 
 - 1.[Mã bù hai](#mã-bù-hai)
@@ -508,6 +512,14 @@ Bạn thấy `if(0)` hardcode thẳng là 0 luôn cơ mà, nghĩa là compile đ
 ![alt text](image30.png)
 
 Quan sát, assembly att mà compile dịch ra có thể hơi khác so với cái mà ta gặp hằng ngày, nhưng vấn đề là ta thấy logic của assembly nó ko hề có các câu điều kiện như `je` , `jne` v.v. mà chỉ là gắn vào rdi rồi call xong thoát. Đó là bằng chứng mạnh nhất để cho thấy trước khi các file log này được sinh ra thì compile đã tối ưu hóa và loại bỏ các câu điều kiện trước đó nữa rồi. Chúng ta cần debug sâu hơn nữa
+
+Trích xuất tất cả các file debugs ra với lệnh :
+
+> gcc -fdump-tree-all test_type.c -o test_type
+
+nó sẽ ra các file như thế này. Các file này đều được push hết lên phần /debugs/
+
+![alt text](image31.png)
 
 </details>
 
