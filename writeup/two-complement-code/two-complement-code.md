@@ -521,6 +521,37 @@ nó sẽ ra các file như thế này. Các file này đều được push hết
 
 ![alt text](image31.png)
 
+Ở đây, rất nhiều file. Chúng ta chỉ trinh thám mấy file cần thiết để lấy bằng chứng chứng minh compiler optimized chương trình, các file chúng ta có thể trinh thám là `test_type.c.273t.optimized`, `test_type.c.006t.original`, `test_type.c.024t.ssa`, `test_type.c.007t.gimple` hoặc đơn giản chúng ta dùng lệnh `grep` để grep tất cả file cho nhanh :
+
+> grep -R "if" test_type.*
+
+![alt text](image32.png)
+
+ở đây, tại các file mã nguồn .c và .i vẫn là nó, .c là gốc mã nguồn còn .i thì compiler chỉ trích xuất và chèn tất cả nội dung của file tiêu đề lên đỉnh của src gốc thôi nó chưa động chạm gì tới mã nguồn, nhưng về các file sau nghĩa là giai đoạn sau đó thì if bắt đầu biến thành `if(0 != 0)`. Rõ ràng là compiler nó đã chuyển sang 0 trước đó nữa rồi
+
+chúng ta thử đổi ngược lại câu điều kiện xem sao :
+
+```c
+#include <stdio.h>
+
+int main(void){
+		if(-1 > 1U){ //đổi ngược < thành >
+			printf("hợp lệ \n");
+		}else{printf("ko hợp lệ, lỗi diễn giải\n");}
+	return 0;
+}
+```
+
+> gcc -o test_type test_type.c
+
+![alt text](image33.png)
+
+chúng ta quan sát, thấy in ra từ hợp lệ. Vậy điều kiện `-1 > 1U` hay `-1 < 1U` compiler ép kiểu -1 sang unsigned, do -1 là signed MSB là `1111111` kiểu thế, thì nó là số âm nhưng khi bị ép sang hệ không dấu unsigned thì lúc này nó sẽ ra số nguyên = $$\Large2^N-1$$ bao quát toàn bộ dãy binary. Nên `-1` thành số lớn hơn rất nhiều ví dụ :
+
+- short 2byte là 16bit, điều kiện so sánh là `-1 < 1U`, compiler ép `-1` sang usigned gọi là `(unsigned)-1 < 1U` lúc này 16 bit có số nguyên bằng $$\Large2^16-1 = 65535$$ thì ta đang so sánh `65535 < 1` nên điều kiện luôn sai
+
+![alt text](image34.png)
+
 </details>
 
 > CPU nó không giữ một đống số nguyên hay gì hết, nó chỉ giữ một đống bit chỉ 0 và 1.
