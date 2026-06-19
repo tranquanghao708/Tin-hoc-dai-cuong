@@ -24,7 +24,7 @@
 
 	- 2.1 signed overflow và unsigned overflow
 
-	- 2.1.1 signed overflow
+	- 2.1.1 unsigned overflow
 
 	- 2.1.1.1 modulo $$\Large2^{N}$$
 
@@ -32,13 +32,17 @@
 
 	- 2.1.1.3 bit bị bỏ
 
-	- 2.1.2 unsigned overflow
+	- 2.1.1.4 áp dụng thử vào C
+
+	- 2.1.2 signed overflow
 
 	- 2.1.2.1 vượt miền Tmin/Tmax
 
 	- 2.1.2.2 cờ OF (overflow flag)
 
 	- 2.1.2.3 vì sao MSB đổi?
+
+	- 2.1.2.4 áp dụng thử vào C
 
 ---
 
@@ -608,6 +612,8 @@ bỏ bit ngoài đi, chúng ta có kết quả là 0. Đó là bù hai
 
 > Phần này chủ yếu là lịch sử của bù hai
 
+---
+
 # Tràn số
 
 - Tràn số là hiện tượng các số bit được dịch hoặc được cộng lên sang bên trái :
@@ -621,18 +627,38 @@ bỏ bit ngoài đi, chúng ta có kết quả là 0. Đó là bù hai
 
 **2.1 signed overflow và unsigned overflow**
 
-**2.1.1 signed overflow**
+**2.1.1 unsigned overflow**
+
+- Là hiện tượng khi số nguyên không dấu tới quá hạn của số bit mà hệ thống cho phép. Nghĩa là, ví dụ khi hệ thống của tôi là archlinux 64bit, nó hỗ trợ 64bit thôi nếu ta vượt quá 64 bit này chẳng hạn như 65 bit đi thì lúc này số sẽ quy về 0 nghĩa là bit bên ngoài đã bị bỏ rồi 
 
 **2.1.1.1 modulo $$\Large2^{N}$$**
+
+- biểu thức $$\Large2^{N}$$ chúng ta đã nhắc nhiều ở mục trên rồi ví dụ nó giúp tính giá trị số bit bằng vị trí bit thì ở đây nó lại giúp chúng ta nhìn thấy hiện tượng unsigned overflow vượt quá giới hạn bit mà hệ thống hỗ trợ như thế nào, ví dụ hệ thống archlinux là 64bit đi thì ta dùng :
+
+$$\Large2^{64} = 0$$
+
+![alt text](image35.png)
+
+tại sao lại bằng 0?, do là chúng ta đã nhìn thấy hiện tượng unsigned overflow bây giờ hãy giải thích tại sao nó lại bằng 0. Cho ví dụ, hệ thống mới của chúng ta là 4 bit `0000 -> 1111` bây giờ tính $$\Large2^{4} = 10000$$, ta quan sát nó đã bị tràn ra bit số 5 quá mức mà hệ thống mới này hỗ trợ kết quả là hệ thống loại bỏ bit số 5 đi chỉ giữ lại đúng 4 bit là `0000` thôi kết quả là 0 cũng như thế với hiện tượng 64bit trên thôi.
+
+> Chúng ta có thể áp dụng với kiểu dữ liệu C, nếu bạn muốn chi tiết hơn nữa
+
+<details>
+	<summary>áp dụng với C</summary>
+</details>
 
 **2.1.1.2 cờ CF (carry flag)**
 
 **2.1.1.3 bit bị bỏ**
 
-**2.1.2 unsigned overflow**
+**2.1.1.4 áp dụng thử vào C**
+
+**2.1.2 signed overflow**
 
 **2.1.2.1 vượt miền Tmin/Tmax**
 
 **2.1.2.2 cờ OF (overflow flag)**
 
 **2.1.2.3 vì sao MSB đổi?**
+
+**2.1.2.4 áp dụng thử vào C**
