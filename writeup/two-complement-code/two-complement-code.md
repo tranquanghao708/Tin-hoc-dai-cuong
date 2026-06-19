@@ -589,3 +589,12 @@ bỏ bit ngoài đi, chúng ta có kết quả là 0. Đó là bù hai
 > Phần này chủ yếu là lịch sử của bù hai
 
 # Tràn số
+
+- Tràn số là hiện tượng các số bit được dịch hoặc được cộng lên sang bên trái :
+
+| số bit gốc | 00010001 |
+|------------|----------|
+| cộng 1     | 00010010 |
+| dịch phải 1 | 00100010 |
+
+- Điều đó bình thường và ko sai, nó sẽ xảy ra hiện tượng ví dụ `overflow` , `signed wrap` . Thế hai hiện tượng này là gì?
