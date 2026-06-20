@@ -881,7 +881,9 @@ thì bây giờ short là 16bit = 2byte thì int nó sẽ gấp đôi short là 
 
 <details>
 	<summary>câu trả lời cho câu hỏi trên</summary>
-- Nó xảy ra ở phần cứng, còn về hợp ngữ chỉ là để diễn giải hay gắn này kia chứ tràn số bit là hoàn toàn ở CPU.Vậy ở đây chúng ta dùng kiểu dữ liệu mà? có phải $$\Large2^{64}$$ ở 64bit đâu mà ở phần cứng?
+
+- Nó xảy ra ở phần cứng, còn về hợp ngữ chỉ là để diễn giải hay gắn này kia chứ tràn số bit là hoàn toàn ở CPU.Vậy ở đây chúng ta dùng kiểu dữ liệu mà? có phải $$\Large2^{64}$$ ở 64bit đâu mà ở phần cứng?. Đúng, nó là kiểu dữ liệu nhưng CPU ko biết kiểu dữ liệu là gì nó sinh lệnh assembly thú thẳng là nó ko biết assembly là gì nó chỉ biết 0 và 1 là cốt lõi xưa giờ. Chúng ta nói assembly cho dễ hiểu, ở đây CPU ko biết short hay int nó chỉ giới hạn kiểu đọc theo độ rộng toán hạng của type ví dụ int 32 bit thì lệnh assembly thì CPU biết phần này nó chỉ đọc đúng 32 bit thôi ko hơn. Còn về việc tràn số là biểu thức $$\Large2^{N}$$ vượt quá số bit mà type cho phép, bit thừa bị bỏ. CPU đọc số lượng thấy nó vượt quá độ rộng toán hạng mà mình đọc, nó bỏ các bit thừa đi giống như kiến trúc mà nó hỗ trợ là 64bit nhưng ở đây là phạm vi giới hạn để biểu diễn theo kiểu dữ liệu. Do là nó ở mức phần cứng, chúng ta cũng ko thể debug được để lấy bằng chứng vì cần phải có kỹ năng cao hơn
+
 </details>
 
 **Vậy thì câu trả lời cho câu hỏi sign extension trên là đây :** ở program này, nó ko dùng sign extension mà nó dùng zero extension, nó vẫn tăng short thành int. Đúng, compiler logs đã chứng minh điều đó, vấn đề là chúng ta chỉ biết là nó xảy ra cho chúng ta thấy khi call tới printf điều đó ko đúng nó ko phải cố định mỗi hàm đó mà nó còn nhiều hàm khác cứ xem lênh `movzs` là ví dụ. Còn về, tại sao cả hai đều là 0 là vì tràn bit số ko dấu unsigned overflow, trong debug chúng ta đã thấy lệnh `movzs` chỉ lấy 16bit, 2 byte vaddr là `0000` là của short nhưng short bị ép thành int và zero extension lên thêm 16 bit nữa là gấp đôi short tổng cộng vaddr là `00000000000000000000`, khi đó nó đọc một dãy được xem là 0 nên nó mới gắn 0 vào eax và từ đó gắn vào các thanh ghi rsi trước khi call printf tại main
