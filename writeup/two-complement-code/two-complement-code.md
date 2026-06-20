@@ -827,6 +827,60 @@ Như trên ảnh chúng ta thấy đó là hàm luy_thua ở file này nó cho c
 
 chúng ta thấy một điều quan trọng, compiler optimized ko hề gắn mặc định số 0 vào biến rõ ràng nó ko gắn nhưng nó đã ép kiểu của short thành int bạn để ý dòng này `_2 = (int) a_11;` và ` _1 = (int) a_7;` và a rõ ràng khai báo bằng short, ở compiler các file logs như vậy chỉ được sử dụng một biến ví dụ gắn cái gì vào biến a lần đầu tiên, giữ nguyên tên, lần thứ hai thấy a_1 hoặc a_2 các số sau dấu gạch dưới đó sẽ tăng dần lên khi số lượng gọi và gắn vào biến nhiều hơn. **Vậy điều gì khiến gdb cứ mặc định rsi là 0? nếu compile ko tối ưu hóa nó?**, chúng ta quan sát đợt vừa rồi là compiler nó ko hề gắn 0 vào, vậy ta có một giả thuyết nữa chính là `số 0 là giá trị kết quả sau khi hàm luy_thua thực hiện phép toán lũy thừa với biểu thức và làm nó đã tràn và kiểu dữ liệu đã bỏ các bit thừa ngay từ trước đó, có lẽ ngay cả khi nó vừa thực thi xong` vậy giả thuyết compiler tối ưu hóa, chúng ta hoàn toàn bác bỏ. Vậy chúng ta cần tìm bằng chứng để chứng minh giả thuyết này
 
+Quay lại với GDB và breakpoint vào hàm lũy thừa để soi các thanh ghi truyền cái gì với cái gì, nó có thực sự là sign extension hay ko để trả lời cho câu hỏi trên và chứng minh giả thuyết
+
+> gdb -q test_type 
+
+và
+
+> disas luy_thua
+
+chúng ta sẽ thấy disassembly của hàm luy_thua , chung ta sẽ breakpoint tại vaddr 0x000055555555513d sau khi hàm luy_thua được cấp phát và bắt đầu nạp hai thanh ghi tham số rsi và rdi
+
+![alt text](image50.png)
+
+Bây giờ chúng ta bắt đầu chạy chương trình :
+
+> r
+
+![alt text](image51.png)
+
+lúc này chúng ta hiện tại đang ở lần gọi hàm luy_thua đầu tiên là phần của biến short, ở đây nó truyền rdi = 2 và rsi = 0x10 = 16 do là short 16bit nên $$\Large2^{16}$$ để thử nghiệm gây tràn bit, lúc này hàm chưa tới các instrution tính toán kế tiếp nên nó vẫn chưa có kết quả là 0. Chúng ta `until` qua cái phần vòng lặp tính lũy thừa, vì phần này dùng `ni` lâu lắm, until vaddr là 0x0000555555555170 lúc lệnh sau khi vòng lặp chưa thực thi
+
+![alt text](image52.png)
+
+và disasembly sau khi until
+
+![alt text](image53.png)
+
+Chúng ta nhìn kỹ thanh ghi rax, ở đây nó vẫn là 0x10 = 16 là số bit của short nhưng pwndbg hiện thanh ghi kết quả rax = 0 sau khi thực thi xong lệnh `movzx  eax, word ptr [rbp - 6]`, chúng ta thử `ni` để xem kỹ lệnh này được thực thi thì thanh ghi rax sẽ là 0
+
+![alt text](image54.png)
+
+Quả nhiên thanh ghi rax trở thành giá trị là 0, bây giờ để chắc chắn lệnh này có phải gốc của nguyên nhân hay ko thì chúng ta disas xem hàm main để soi cách thanh ghi được truyền vào các thanh ghi trước khi gọi hàm
+
+![alt text](image55.png)
+
+Vậy là thanh ghi eax có truyền vào esi, làm cho printf luôn in ra là 0. Thế thì, chúng ta tìm hiểu sâu về lệnh `movzx  eax, word ptr [rbp - 6]` để xem vai trò và cách hoạt động nó như thế nào với việc tràn số của các kiểu dữ liệu và liệu có sign extension như câu hỏi ở trên không đã nhé. `movzx` là zero extension còn `word ptr [rbp - 6]` là đọc 2 byte (16 bit) tại địa chỉ rbp - 6 offset, ở đây ta thử dump rbp - 6 ra nhé
+
+> x/gx $rbp - 6
+
+![alt text](image56.png)
+
+ở đây ta quan sát là rbp - 6 là vaddr `0x7fffffffe52a:	0xe550000000110000`, cứ giữ đây đã. Chúng ta tiến hành `r` và `until` lại program khi lệnh `movzx  eax, word ptr [rbp - 6]` chưa được thực thi và ta thử dump ra ở khoảnh khắc đó, nếu nó ko thay đổi gì thì cái vaddr `0x7fffffffe52a: 0xe550000000110000` là cái mà chúng ta đang cần tìm và phân tích
+
+![alt text](image57.png)
+
+chúng ta quan sát là instrution của lệnh đó nó chưa được thực thi nhưng khi ta dump rbp - 6 ra thì nó vẫn là `0x7fffffffe52a:	0xe550000000110000` vậy đây chính là mục tiêu của chúng ta cần tìm. Như lệnh `movzx  eax, word ptr [rbp - 6]` nó copy 2byte dữ liệu tương ứng 16 bit trong cái này `0xe550000000110000` tổng cộng theo little endian là `000011000000055e` là nó copy hết dãy bit này `0xe550000000110000` còn movzx là nó zero extension, như compiler log là short luôn biến thành int theo chuẩn C
+
+![alt text](image49.png)
+
+thì bây giờ short là 16bit = 2byte thì int nó sẽ gấp đôi short là 32bit = 4 byte vậy cái zero extension này tôi đã giải thích ở mục câu hỏi `Lý do C lại thêm 0xffff` trong mục `Debug program C` tại `1.3.1.Áp dụng thử vào C`, là nó sẽ kéo dài ra nếu MSB = 0 ở đây int là 32 bit là nó sẽ kéo cái vaddr này là `000011000000055e` đã xắp sếp lại theo little endian trước đó thì nó sẽ thêm 16bit số 0 kéo ra ở MSB như thế này `0000000000000000000011000000055e` , **nhưng nó liên quan gì tới việc gắn 0 ?** nó ko liên quan nhưng việc gắn 0 là hiện tượng tràn bit của kiểu dữ liệu unsigned overflow, nhưng vấn đề vaddr khi cho vào echo được dịch và tính toán sang số nguyên có dấu là 
+
+![alt text](image58.png)
+
+Vấn đề này số nó sai so với kết quả biểu thức $$\Large2^{16}-1$$ của kiểu short. Vậy, chúng ta vẫn đang thắc mắc là **tại sao số này nó bị sai, có phải nó tính sai ko ? lệnh này nó có liên quan tới việc eax bị gán là 0 hay ko?**
+
 </details>
 
 </details>
