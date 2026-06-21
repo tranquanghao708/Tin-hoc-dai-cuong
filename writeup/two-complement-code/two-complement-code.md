@@ -397,11 +397,16 @@ từ đó cũng như thế thôi, bit nhị phân vẫn y nguyên là nó. Cách
 
 trong CSAPP có đề cập tới hai khái niệm này. T2U có nghĩa là chuyển số có dấu signed sang số không dấu unsigned 
 
+<details>
+	<summary>sơ đồ</summary>
+
 ```mermaid
 flowchart LR
 	A[số có dấu <br>signed</br>] -->|-1| B{T2U covert}
 	B -->|11111111| C[số không dấu <br>unsigned</br>]
 ```
+
+</details>
 
 trước hết ta có biểu thức của T2U là :
 
@@ -432,11 +437,16 @@ Bạn thấy số đã chuyển sang số không dấu unsigned
 
 còn U2T thì ngược lại thôi, nó chuyển unsigned sang signed 
 
+<details>
+	<summary>sơ đồ</summary>
+
 ```mermaid
 flowchart LR
     A[Số không dấu <br><b>Unsigned</b>] -->|11111111| B{U2T Convert}
     B -->|-1| C[Số có dấu <br><b>Signed</b>]
 ```
+
+</details>
 
 công thức của nó là :
 
@@ -942,15 +952,15 @@ int main(void){
 	//biểu thức unsigned
 	unsigned short a = 32767; //Tmax của short 0111111...
 
-	printf("a ko dấu là : %d, cộng thêm 1 là : %d\na có dấu là : %d, cộng thêm 1 là : %d",
+	printf("a ko dấu là : %d, cộng thêm 1 là : %d\na có dấu là : %d, cộng thêm 1 là : %d\n",
 
 			a,
 
-			a+1, //lúc này là 100000... MSB = 1 nhưng mà ko phải số âm, vì là hệ ko dấu nên sẽ là 32767 + 1 = 32768
+			a+1, //lúc này là 100000... MSB = 1 nhưng mà ko phải số âm, vì là hệ ko dấu nên sẽ là 32768 + 1 = 32769
 
-			(signed)a, //lúc này mới chuyển sang số có dấu nhưng vẫn là 32768 vì msb chưa là 1
+			(signed short)a, //vẫn còn là số dương vì nó vẫn là Tmax của short
 
-			(signed)a+1 //lúc này mới là MSB = 1 thì cái này chính là số âm Tmin = -32768
+			(signed short)a+1 //lúc này mới chuyển sang số có dấu là Tmin = -32768
 	);
 
 	return 0;
@@ -958,6 +968,14 @@ int main(void){
 ```
 
 > gcc -o test_type test_type.c ; ./test_type
+
+![alt text](image58.png)
+
+Chúng ta thấy một điểm quan trọng nữa chính là khi số `(signed short)a+1` đã được cộng thành `100000...` nhưng MSB = 1 nó vẫn ko thành số âm vẫn là số dương dù nó được ép thành signed có dấu . Phá vỡ nguyên lý bù hai luôn
+
+![alt text](image59.png)
+
+> echo đã chứng minh nó đã biến thành Tmin khi cộng 1 vào Tmax
 
 </details>
 
