@@ -14,8 +14,6 @@
 
 	- 1.3.Miền giá trị biểu diễn được
 
-	- 1.3.1.Áp dụng thử vào C
-
 	- 1.4.Chuyển đổi giữa unsigned và signed *(Conversions Between Signed and Unsigned, 2.2.4 trang 105,106)*
 
 	- 1.5.Vì sao gọi là mã bù hai?
@@ -161,8 +159,13 @@ tất nhiên theo bản, bạn thấy nó có 8 số âm và 8 số không âm n
 
 - **Nguyên nhân chính là số 0** số 0 thuộc miền không âm nhưng không làm tăng giá trị Tmax
 
-**1.3.1.Áp dụng thử vào C**
+> [!NOTE]
+> Chúng ta cảm thấy rất khổ dâm khi mà phải lập bảng hay tính tay từng bit, vậy nên muốn tính theo cách thực tế thì dùng lệnh C `printf "%u\n" 0b<binary>` ví dụ `printf "%u\n" 0b10010010` kết quả là 146 nếu ta muốn tính unsigned hệ ko dấu. Vậy muốn signed hệ có dấu thì lệnh `printf "%d\n" (signed char)0b<binary>` ví dụ `printf("%d\n", (signed char)0b10010010);` thì kết quả là `-110` , nhưng signed thì phải tạo file C vì bash thuần ko hỗ trợ việc ép kiểu. Bạn có thể dùng alias trong file .bashrc hoặc .zshrc hay là alias tạm để gắn tham số vào cũng được. Ngoài ra cũng có thể dùng `echo $((2#<binary))` ví dụ `echo $((2#10010010))` kết quả cũng ko đổi là 146 nhưng hệ có dấu thì echo cũng chịu
 
+> Áp dụng thử vào C, bạn có thể bỏ qua nếu ko quan tâm đến 
+
+<details>
+	<summary>Áp dụng thử vào C</summary>
 - Nếu như ở trên là lý thuyết?, chúng ta tiến hành viết một chương trình C nhỏ để có thể tính toán các dãy bit trên hệ thống thật . Do hệ thống thật là 64 bit nhưng trong C các kiểu dữ liệu nó có 1 cái hay là có riêng cho nó một lượng byte riêng ví dụ `2 byte` là `short`, chúng ta sẽ ứng dụng short vào trong chương trình này. Cứ dịch ra trước `2 byte là 16 bit` và tính toán TMin và TMax trước đi đã
 
 Tmin của 16 bit = $$\Large-2^{N-1}$$ = -32768
@@ -299,6 +302,8 @@ chúng ta tiếp tục `ni` và output sẽ giống y chang :
 
 vì đơn giản đó là Tmin theo signed, và khi MSB = 1 rồi thì mọi con số đều là âm hết nếu theo hệ bù hai signed
  
+</details>
+
 </details>
 
 **1.4.Chuyển đổi giữa unsigned và signed**
