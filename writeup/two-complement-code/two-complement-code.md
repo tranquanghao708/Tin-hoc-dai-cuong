@@ -1100,7 +1100,53 @@ Chúng ta thấy nó đã gắn như kỳ vọng của chúng ta là `0x55555f00
 
 </details>
 
-Vậy còn thanh ghi EAX thì nó sẽ khác một chút
+Vậy còn thanh ghi EAX thì nó sẽ khác một chút, ở đây cũng chính là quy tắc đặc biệt mà ABI cho EAX nghĩa là eax đúng là 32bit nhưng nếu chúng ta ghi value/vaddr gì đó ví dụ ta có value 32bit như sau `0x12345678` thì khi ghi vào thanh ghi eax, rax vốn đã có sẵn vaddr là `0x55555f0000000000` nhưng sau khi đã ghi value vào eax thì rax trở thành `0x0000000012345678`, chúng ta thấy 32bit cao dần lên còn lại của rax bị remove thành zero hết. Đây là đặc điểm thiết kế của kiến trúc x86-64. Intel quy định như vậy để CPU thực thi hiệu quả hơn và tránh phụ thuộc vào giá trị cũ của nửa trên thanh ghi.
+
+> kiểm chứng với assembly, bạn có thể bỏ qua nếu ko quan tâm
+
+<details>
+	<summary>kiểm chứng eax với asm</summary>
+
+```asm
+section .text
+	global _start
+
+_start:
+	mov rax, 0x55555f0000000000 ; vaddr value mà rax có sẵn
+	mov eax, 0x12345678 ; gắn value vào eax lúc này rax sẽ thành 0x0000000012345678
+```
+
+> nasm -f elf64 asm.asm ; ld asm.o -o asm
+
+![alt text](image69.png)
+
+Vẫn như cũ, nó vẫn SIGSEGV do vaddr ko hợp lệ. Để thấy chúng ta vẫn dbeug như thường :
+
+> gdb -q asm
+
+và
+
+> start
+
+![alt text](image70.png)
+
+chúng ta thấy rax đã có giá trị mặc định bây giờ chúng ta thực thi nốt lệnh để xem hiện tượng có như kỳ vọng là result = 0x0000000012345678 ko đã nhé 
+
+> ni
+
+![alt text](image71.png)
+
+Ở đây ta quan sát, do zero bit 0000v.v. bị loại bỏ gdb/pwndbg chỉ giữ những bit như `0x12345678` thôi, vậy bằng chứng là nếu rax = `0x0000000012345678` thì nó giữ 0x12345678 chứng tỏ nó đã dọn dẹp 32bit còn lại cao dần lên ở rax còn nếu nó thay thế nhưu thanh ghi trước nhưu AL AX v.v. thì nó vẫn s
+ẽ giữ `0x55555f0012345678` chứ ko chỉ hiện riêng cái `0x12345678` được, nếu chúng ta muốn xem trọn luôn thì dùng lệnh này trong GDB
+
+>  printf "%016lx\n", $rax
+
+%016 nghĩa là in trọn 16 bit hex nếu thiếu thì thêm 0 vào, kết quả là 
+
+![alt text](image71.png)
+
+ta thấy kết quả như kỳ vọng là `0000000012345678` -> `0x0000000012345678` (thêm 0x)
+</details>
 
 </details>
 
