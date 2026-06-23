@@ -1194,13 +1194,13 @@ int main(void){
 
 ![alt text](image75.png)
 
-Kết quả đúng như kỳ vọng của chúng ta 
+Kết quả đúng như kỳ vọng của chúng ta và bạn thấy đó chính là phép toán unsigned và signed mà chúng ta đang thử nghiệm
 
 </details>
 
 </details>
 
-thứ hai là bit carry là gì ,
+thứ hai là bit carry là gì , cũng được gọi là bit nhớ là bit thứ N+1 sinh ra khi cộng hai số N bit. Ví dụ khi ta có 4bit, có dung lương lắp đầy bit là `1111` = $$\Large2^{4}-1$$ nhưng khi ta cộng thêm 1 bit vào thì sẽ thành `10000` 5 bit trong kiến trúc 4 bit thì bit số 5 sẽ bị loại bỏ, bit đó gọi là bit carry, carry bit luôn bị bỏ nhưng lý do bị bỏ thì kiến trúc của các hệ thống như thanh ghi, cpu v.v. có dung lương bit cố định nếu vượt số quá số bit chẳng hạn cpu 64bit nhưng vượt qua 64 bit thành 65bit thì bit số 65 sẽ bị loại bỏ
 
 **2.1.1.3 Vì sao phép cộng unsigned lại tương đương modulo $$\Large2^{N}$$?**
 
