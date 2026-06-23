@@ -1008,11 +1008,11 @@ Chúng ta để ý các thanh ghi được làm việc và xử lý trước khi
 | AX 		|   16 	 |
 | AL và AH  | 	8 	 |
 
-Bây giờ lệnh đầu tiên `movzx  eax,WORD PTR [rbp-0x2]`, lệnh này nó thăng vùng `rbp + 0x2` là biến a kiểu short lên kiểu int vì eax là 32 bit tương ứng với 4 byte đúng với type int, eax đọc 32bit trong rbp+0x2 thấy nó chỉ là `0x7fff` 16 bit vì trước đó ta có gán Tmax là `32767` còn `0x7fff` là diễn giải của lục phân hexdecimal của `32767`, nó đọc 32bit nó thấy và đọc 16bit là Tmax ở rbp + 2 và nó zero extension thêm 16bit thì vaddr nó sẽ như vầy `0x00007fff` tổng cộng 32bit, tiếp đến là chúng ta thấy có một loạt cái perform handle của các thanh ghi ở dưới 
+Bây giờ lệnh đầu tiên `movzx  eax,WORD PTR [rbp-0x2]`, lệnh này nó thăng vùng `rbp + 0x2` là biến a kiểu short lên kiểu int vì eax là 32 bit tương ứng với 4 byte đúng với type int, eax đọc 32bit trong rbp+0x2 thấy nó chỉ là `0x7fff` 16 bit vì trước đó ta có gán Tmax là `32767` còn `0x7fff` là diễn giải của lục phân hexdecimal của `32767`, nó đọc 32bit nó thấy và đọc 16bit là Tmax ở rbp - 2 và nó zero extension thêm 16bit thì vaddr nó sẽ như vầy `0x00007fff` tổng cộng 32bit, tiếp đến là chúng ta thấy có một loạt cái perform handle của các thanh ghi ở dưới 
 
 ![alt text](image62.png)
 
-> bằng chứng là rbp + 2 là chứa Tmax của short nhưng được thăng lên là int là e600 còn vaddr 7fffffff chính là chữ ký nó đang ở stack
+> bằng chứng là rbp - 2 là chứa Tmax của short nhưng được thăng lên là int là e600 còn vaddr 7fffffff chính là chữ ký nó đang ở stack
 
 ở mấy thanh ghi bên dưới thấy `lea ecx,[rax+0x1]`, ta thấy ecx là argument 4, chúng ta có bảng argument ABI x86-64 như sau :
 
@@ -1151,6 +1151,16 @@ ta thấy kết quả như kỳ vọng là `0000000012345678` -> `0x000000001234
 </details>
 
 </details>
+
+Thế nên, khi lệnh `movzx  eax,WORD PTR [rbp-0x2]` được thực thi copy 32 bit tại vùng `rbp - 2` vào eax thì lúc này rax cũng đã trở thành `0x<32bit0>..<32biteax>` rồi nhưng rbp-2 lúc này chỉ chứa 0x7fff thôi và nó 16bit nên eax copy hết 16bit đó còn 16bit dư kia thì zero và rax cũng zero 32bit như ABI quy định , tại lệnh này `lea    ecx,[rax+0x1]` nó copy vùng `rax + 1` là lúc này vaddr 0x7ffff thành 0x8000, nghĩa là lệnh này nó cộng 1 vào và copy vô ecx thôi ý, ở ecx là argument 4 của printf và 0x8000 như đã nhắc trước đó là Tmax của 16bit tương ứng với kiểu short. Vậy ở đây chúng ta bắt đầu `ni` hoặc `until` để thực thi tới printf xem sao.
+
+> until *0x0000555555555176
+
+Khi đã pause tại instrution call printf rồi thì ta disas main ra 
+
+![alt text](image73.png)
+
+Ở đây, ta mới để ý cách nó truyền vào hàm printf, bởi lẽ khi transmit vào thì nó đều là thanh ghi 32bit là eax, edi, esi, v.v. trong khi chúng ta tính toán ở trước là phần short, điều này chúng ta cũng nhớ tới phần trước khi ta debug binary ở câu hỏi ffff.. ở sau là do compiler chuyển short thành int, chúng ta cũng nhớ tới lần 2 trích xuất compiler chúng ta cũng thấy rõ ràng là nó ép kiểu thành int và ở đây ta thấy nó dùng thanh ghi 32bit khả năng cao nó lại là int
 
 </details>
 
