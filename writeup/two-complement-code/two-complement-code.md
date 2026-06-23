@@ -1179,7 +1179,7 @@ int main(void){
 
 			a,
 
-			a+1, //lúc này là 100000... MSB = 1 nhưng mà ko phải số âm, vì là hệ ko dấu nên sẽ là 32768 + 1 = 32769
+			a+1, //lúc này là 100000... MSB = 1 nhưng mà ko phải số âm, vì là hệ ko dấu nên sẽ là 32767 + 1 = 32768
 
 			(signed short)((short)a), //vẫn còn là số dương vì nó vẫn là Tmax của short, ép kiểu chuẩn short
 
