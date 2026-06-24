@@ -1237,7 +1237,13 @@ và
 
 ![alt text](image79.png)
 
-Chúng ta thấy trước khi lệnh `add al,0x1` vào thì eflag nó chỉ có `[if]` thôi, và ko có carry nào.
+Chúng ta thấy trước khi lệnh `add al,0x1` vào thì eflag nó chỉ có `[if]` thôi, và ko có carry nào. bây giờ chúng ta dùng ni, thử xem khi thực thi xong cái lệnh add và làm cho tràn bit unsigned thì sẽ như thế nào và thay đổi gì với eflags.
+
+> ni
+
+![alt text](image80.png)
+
+Ở đây nó hiện các cờ như `[ CF PF AF ZF IF ]` nghĩa là tất cả là `1`, cờ flag như carry flag và tất cả cờ khác chỉ có 0 và 1 chứ ko có số khác. Vậy binary `1001010111` này từ `0x257` là value của eflags **nó có nghĩa là gì?**
 </details>
 
 **2.1.1.3 Vì sao phép cộng unsigned lại tương đương modulo $$\Large2^{N}$$?**
