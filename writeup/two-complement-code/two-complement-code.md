@@ -1265,7 +1265,7 @@ vì thế cho binary như `1001010111`. thì ta có bảng như sau :
 | vị trí bit | 9 | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
 |------------|---|---|---|---|---|---|---|---|---|---|
 | bit 		 | 1 | 0 | 0 | 1 | 0 | 1 | 0 | 1 | 1 | 1 |
-| flags 	 | IF | TF | SF | ZF | reserved | AF | reserved | PF | | CF |
+| flags 	 | IF | TF | SF | ZF | | AF | | PF | | CF |
 </details>
 
 **2.1.1.3 Vì sao phép cộng unsigned lại tương đương modulo $$\Large2^{N}$$?**
