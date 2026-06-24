@@ -1266,6 +1266,9 @@ vì thế cho binary như `1001010111`. thì ta có bảng như sau :
 |------------|---|---|---|---|---|---|---|---|---|---|
 | bit 		 | 1 | 0 | 0 | 1 | 0 | 1 | 0 | 1 | 1 | 1 |
 | flags 	 | IF | TF | SF | ZF | | AF | | PF | | CF |
+
+Ở đây, các bit là số `1` là bật các cờ lên. Các cờ ở vị trí bit `1` như `IF, ZF, AF, PF, CF` đúng y chang GDB báo ở trên, nhưng nó little endian ngược lại từ thấp đến cao nhé
+
 </details>
 
 **2.1.1.3 Vì sao phép cộng unsigned lại tương đương modulo $$\Large2^{N}$$?**
