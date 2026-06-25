@@ -1301,14 +1301,18 @@ chúng ta thấy eflags vẫn là IF, nó ko có CF hay cái flag nào được 
 
 ![alt text](image85.png)
 
-Vậy còn modulo $$\Large2^{N}$$ là gì? , nếu modulo là chỉ lấy phần dư thì modulo $$\Large2^{N}$$ lấy những số dư của những đơn vị, chục v.v. các số chia với phép tính biểu thức $$\Large2^{N}$$ . Nghĩa là, khi ta có 4 bit tmax của bit này là 15 ($$\Large2^{4}-1 = 15$$) , chúng ta lấy 15 chia với $$\Large2^{4}$$ để lấy dư chúng ta có biểu thức modulo hoàn chỉnh như sau 15 MOD $$\Large2^{4}$$ = 16 MOD 15 = 1 ( vì 15 / 16 dư 1) nên kết quả của modulo là 1, đó là modulo  $$\Large2^{N}$$ 
+Vậy còn modulo $$\Large2^{N}$$ là gì? , nếu modulo là chỉ lấy phần dư thì modulo $$\Large2^{N}$$ lấy những số dư của những đơn vị, chục v.v. các số chia với phép tính biểu thức $$\Large2^{N}$$ . Nghĩa là, khi ta có 4 bit tmax của bit này là 15 ($$\Large2^{4}-1 = 15$$) , chúng ta lấy 15 chia với $$\Large2^{4}$$ để lấy dư chúng ta có biểu thức modulo hoàn chỉnh như sau 15 MOD $$\Large2^{4}$$ = 16 MOD 15 = 1 ( vì 15 / 16 dư 1)
 
 > [!IMPORTANT]
 > MODULO **ko có tính giao hoán**, ví dụ `16 mod 15 = 1` là đúng, nhưng `15 mod 16 = 1` là sai, `15 mod 16 là 15 mới đúng` nên kết quả đúng = <số bị chia> MOD <số chia> 
 
 ![alt text](image84.png)
 
-vậy **điều này nghĩa là gì?**
+ nên kết quả của modulo là 1, đó là modulo  $$\Large2^{N}$$ . Vậy **điều này nghĩa là gì?**, kết quả vừa rồi của modulo chính là số bit carry bị loại bỏ là 1. Vậy nếu thế thì ta cho ví dụ là ở đây 4bit có Tmax là 15, nhưng bây giờ $$\Large2^{4} = 16$$ là unsigned overflow trong kiến trúc 4bit 1 carry (1 lần) nhưng bây giờ ta thử tăng gấp đôi là 8 xem thì ta có biểu thức là $$\Large2^{4} \times 2 = 32$$ là 2 carry (2 lần) unsigned overflow, vậy chúng ta tiến hành tính modulo thử xem `32 mod 15 = 2` 
+
+![alt text](image85.png)
+
+Đó, chúng ta quan sát là nó ra kết quả là 2 vậy kết quả số dư của modulo này chính là số bit carry mà hệ thống bỏ sau khi xảy ra hiện tượng unsigned overflow. Vậy phép tính tổng quan là `<value_number> mod <Tmax của dãy bit> = <số bit carry sau khi unsigned overflow>`
 
 **2.1.1.4 vì sao unsigned arithmetic chính là modulo $$\Large2^{N}$$?**
 
