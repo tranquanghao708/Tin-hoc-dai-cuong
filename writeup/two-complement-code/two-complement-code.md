@@ -1315,9 +1315,9 @@ Vậy còn modulo $$\Large2^{N}$$ là gì? , nếu modulo là chỉ lấy phần
 Đó, chúng ta quan sát là nó ra kết quả là 0 vậy kết quả số dư của modulo này chính là giá trị của binary, phép toán ko dấu khi xảy ra hiện tượng unsigned overflow.
 
 > [!IMPORTANT]
-> Phép toán moudulo **$$a mod 2^{N}$$** đảm nhiệm dự đoán, tính giá trị của dãy bit ko dấu từ hai số thập phân mà ko cần phải nhìn binary trong đó a là số lượng cấp vào dãy bit ví dụ a = 1 thì bit sẽ là 0001, a = 2 thì bit sẽ là 0010 ví dụ: `nếu biến a có giá trị là 30 thì ta muốn biểu diễn dưới 4bit là bao nhiêu, kết quả là = 14 vì 1carry bit đã bị tràn ko dấu`, còn $$2^{N}$$ tượng trưng cho điều kiện sẽ xảy ra unsigned overflow của một dãy bit, ví dụ 4bit có điều kiện xảy ra unsigned overflow là 16, khi các số <16 thì sẽ ra kết quả là giá trị của dãy bit trong phạm vi mà nó hỗ trợ nhưng nếu >=16 thì sẽ đi về 0 và những số dư sau này là giá trị của việc reset lại dãy bit sau khi bị tràn số nguyên ko dấu
+> Phép toán moudulo **a mod $$\Large2^{N}$$** đảm nhiệm dự đoán, tính giá trị của dãy bit ko dấu từ hai số thập phân mà ko cần phải nhìn binary trong đó a là số lượng cấp vào dãy bit ví dụ a = 1 thì bit sẽ là 0001, a = 2 thì bit sẽ là 0010 ví dụ: `nếu biến a có giá trị là 30 thì ta muốn biểu diễn dưới 4bit là bao nhiêu, kết quả là = 14 vì 1carry bit đã bị tràn ko dấu`, còn $$2^{N}$$ tượng trưng cho điều kiện sẽ xảy ra unsigned overflow của một dãy bit, ví dụ 4bit có điều kiện xảy ra unsigned overflow là 16, khi các số <16 thì sẽ ra kết quả là giá trị của dãy bit trong phạm vi mà nó hỗ trợ nhưng nếu >=16 thì sẽ đi về 0 và những số dư sau này là giá trị của việc reset lại dãy bit sau khi bị tràn số nguyên ko dấu
 
-chúng ta có vài ví dụ như sau, vẫn là 4bit (0000->1111) nhưng giả sử ta có số 30 bây giờ thay vì nhìn binary là nó bao nhiêu bit carry rồi sau đó là nhiêu thì bây giờ ta sẽ dùng modulo để tính ra value luôn **30 MOD $$2^{4}$$ = 30 MOD 16 = 14** . Khi ta cho số 30 vào 4 bit thì sẽ tràn ko dấu, sau khi tràn ko dấu kết quả đúng của nó là 14 .
+chúng ta có vài ví dụ như sau, vẫn là 4bit (0000->1111) nhưng giả sử ta có số 30 bây giờ thay vì nhìn binary là nó bao nhiêu bit carry rồi sau đó là nhiêu thì bây giờ ta sẽ dùng modulo để tính ra value luôn **30 MOD $$\Large2^{4}$$ = 30 MOD 16 = 14** . Khi ta cho số 30 vào 4 bit thì sẽ tràn ko dấu, sau khi tràn ko dấu kết quả đúng của nó là 14 .
 
 ![alt text](image87.png)
 
@@ -1342,7 +1342,7 @@ bây giờ chúng ta đang ở là 16, giờ tính
 |------------|---|---|---|---|
 | số bit 	 | 1 | 1 | 1 | 0 |
 
-Bạn thấy rõ ràng là từ 16 ta đếm lần lượt vị trí bit số 0 trước theo little endian là 1, bây giờ 17. Đếm vị trí bit 0 là 0, vị trí 1 là 1 dãy bit sau 1 carry này là 2 bây giờ là 18. Cứ thế đếm lần lượt cho đủ 30. Kết quả ra đúng là 14 bit tương đương 30 MOD $$2^{4}$$ = 30 MOD 16 = 14
+Bạn thấy rõ ràng là từ 16 ta đếm lần lượt vị trí bit số 0 trước theo little endian là 1, bây giờ 17. Đếm vị trí bit 0 là 0, vị trí 1 là 1 dãy bit sau 1 carry này là 2 bây giờ là 18. Cứ thế đếm lần lượt cho đủ 30. Kết quả ra đúng là 14 bit tương đương 30 MOD $$\Large2^{4}$$ = 30 MOD 16 = 14
 
 </details>
 
