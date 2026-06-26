@@ -1301,7 +1301,7 @@ chúng ta thấy eflags vẫn là IF, nó ko có CF hay cái flag nào được 
 
 ![alt text](image85.png)
 
-Vậy còn modulo $$\Large2^{N}$$ là gì? , nếu modulo là chỉ lấy phần dư thì modulo $$\Large2^{N}$$ lấy phần dư chia cho $$\Large2^{N}$$ . Nghĩa là, khi ta có 4 bit từ (0000 -> 1111) và toàn dãy giá trị của bit này là 15 ($$\Large2^{4}-1 = 15$$) , chúng ta lấy 15 chia với $$\Large2^{4}$$ để lấy dư chúng ta có biểu thức modulo hoàn chỉnh như sau 15 MOD $$\Large2^{4}$$ = 15 MOD 16 = 15 ( vì 15 / 16 dư 15 kết quả = 0)
+Vậy còn modulo $$\Large2^{N}$$ là gì? , nếu modulo là chỉ lấy phần dư thì modulo $$\Large2^{N}$$ lấy phần dư chia cho $$\Large2^{N}$$ . Nghĩa là, khi ta có 4 bit từ (0000 -> 1111) và toàn dãy giá trị của bit này là 15 ($$\Large2^{4}-1 = 15$$) , chúng ta lấy 15 chia với $$\Large2^{4}$$ để lấy dư chúng ta có biểu thức modulo hoàn chỉnh như sau 15 MOD $$\Large2^{4}$$ = 15 MOD 16 = 15 ( vì 15 / 16 dư 15)
 
 > [!IMPORTANT]
 > MODULO **ko có tính giao hoán**, ví dụ `16 mod 15 = 1` là đúng, nhưng `15 mod 16 = 1` là sai, `15 mod 16 là 15 mới đúng` nên kết quả đúng = <số bị chia> MOD <số chia> 
@@ -1315,7 +1315,7 @@ Vậy còn modulo $$\Large2^{N}$$ là gì? , nếu modulo là chỉ lấy phần
 Đó, chúng ta quan sát là nó ra kết quả là 0 vậy kết quả số dư của modulo này chính là giá trị của binary, phép toán ko dấu khi xảy ra hiện tượng unsigned overflow.
 
 > [!IMPORTANT]
-> Phép toán moudulo **a mod $$\Large2^{N}$$** đảm nhiệm dự đoán, tính giá trị của dãy bit ko dấu từ hai số thập phân mà ko cần phải nhìn binary trong đó a là số lượng cấp vào dãy bit ví dụ a = 1 thì bit sẽ là 0001, a = 2 thì bit sẽ là 0010 ví dụ: `nếu biến a có giá trị là 30 thì ta muốn biểu diễn dưới 4bit là bao nhiêu, kết quả là = 14 vì 1carry bit đã bị tràn ko dấu`, còn $$2^{N}$$ tượng trưng cho điều kiện sẽ xảy ra unsigned overflow của một dãy bit, ví dụ 4bit có điều kiện xảy ra unsigned overflow là 16, khi các số <16 thì sẽ ra kết quả là giá trị của dãy bit trong phạm vi mà nó hỗ trợ nhưng nếu >=16 thì sẽ đi về 0 và những số dư sau này là giá trị của việc reset lại dãy bit sau khi bị tràn số nguyên ko dấu
+> Phép toán moudulo **a mod $$\Large2^{N}$$** đảm nhiệm dự đoán, tính giá trị của dãy bit ko dấu từ hai số thập phân mà ko cần phải nhìn binary trong đó a là số lượng cấp vào dãy bit ví dụ a = 1 thì bit sẽ là 0001, a = 2 thì bit sẽ là 0010 ví dụ: `nếu biến a có giá trị là 30 thì ta muốn biểu diễn dưới 4bit là bao nhiêu, kết quả là = 14 vì 1carry bit đã bị tràn ko dấu`, còn $$\Large2^{N}$$ tượng trưng cho điều kiện sẽ xảy ra unsigned overflow của một dãy bit, ví dụ 4bit có điều kiện xảy ra unsigned overflow là 16, khi các số <16 thì sẽ ra kết quả là giá trị của dãy bit trong phạm vi mà nó hỗ trợ nhưng nếu >=16 thì sẽ đi về 0 và những số dư sau này là giá trị của việc reset lại dãy bit sau khi bị tràn số nguyên ko dấu
 
 chúng ta có vài ví dụ như sau, vẫn là 4bit (0000->1111) nhưng giả sử ta có số 30 bây giờ thay vì nhìn binary là nó bao nhiêu bit carry rồi sau đó là nhiêu thì bây giờ ta sẽ dùng modulo để tính ra value luôn **30 MOD $$\Large2^{4}$$ = 30 MOD 16 = 14** . Khi ta cho số 30 vào 4 bit thì sẽ tràn ko dấu, sau khi tràn ko dấu kết quả đúng của nó là 14 .
 
@@ -1348,7 +1348,7 @@ Bạn thấy rõ ràng là từ 16 ta đếm lần lượt vị trí bit số 0 
 
 **khi nào nên dùng nó?**
 
-Chúng ta dùng nó để 
+Chúng ta dùng nó để cho các mục đích sau thứ nhất và lớn nhất đó là dự đoán kết quả unsigned mà không cần viết binary, viết binary, lập bảng, đặc biệt tính số kết quả sau khi đã tràn bit ko dấu v.v. phép toán thì đúng nhưng khổ dâm, thực tế và hiệu suất nên khuyên nhủ dùng modulo hay C để đoán kết quả unsigned sau khi đã bị tràn, modulo linh hoạt hơn vì nó cho chúng ta tùy chỉnh bit nào với bit nào còn C thì tùy thuộc kiểu dữ liệu. Công dụng số 2 là đoán trước có bị unsigned overflow hay ko nếu N < $$\Large2^{N}$$ là ko bị nhưng mà nếu >= $$\Large2^{N}$$ chắc chắn sẽ unsigned overflow. Công dụng cuối là hiểu hành vi thật của CPU khi làm việc với phép tính kiểu này, CPU nó ko biết tmax hay tmin, như đã nói ở các chủ đề trước nó chỉ biết bit 0 và 1 rồi thôi chính cách diễn giải mới làm thay đổi value hay hành vi của bit là gì, nhưng ở đây khi dùng modulo chúng ta sẽ hiểu CPU nó chỉ lấy phần dư làm result cho các phép tính hệ ko dấu kiểu này thôi chứ ko có gì cao siêu chỉ là result = N mod $$\Large2^{N}$$ , khi ta biết cách và dự đoán được trước những gì mà CPU sẽ thực hiện hay compile v.v. thì đồng nghĩa là ta đã hiểu cách hoạt động của mấy quỷ đó rồi 
 
 **2.1.1.4 vì sao unsigned arithmetic chính là modulo $$\Large2^{N}$$?**
 
