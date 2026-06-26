@@ -1354,6 +1354,45 @@ Bạn thấy rõ ràng là từ 16 ta đếm lần lượt vị trí bit số 0 
 
 Chúng ta dùng nó để cho các mục đích sau thứ nhất và lớn nhất đó là dự đoán kết quả unsigned mà không cần viết binary, viết binary, lập bảng, đặc biệt tính số kết quả sau khi đã tràn bit ko dấu v.v. phép toán thì đúng nhưng khổ dâm, thực tế và hiệu suất nên khuyên nhủ dùng modulo hay C để đoán kết quả unsigned sau khi đã bị tràn, modulo linh hoạt hơn vì nó cho chúng ta tùy chỉnh bit nào với bit nào còn C thì tùy thuộc kiểu dữ liệu. Công dụng số 2 là đoán trước có bị unsigned overflow hay ko nếu N < $$\Large2^{N}$$ là ko bị nhưng mà nếu >= $$\Large2^{N}$$ chắc chắn sẽ unsigned overflow. Công dụng cuối là hiểu hành vi thật của CPU khi làm việc với phép tính kiểu này, CPU nó ko biết tmax hay tmin, như đã nói ở các chủ đề trước nó chỉ biết bit 0 và 1 rồi thôi chính cách diễn giải mới làm thay đổi value hay hành vi của bit là gì, nhưng ở đây khi dùng modulo chúng ta sẽ hiểu CPU nó chỉ lấy phần dư làm result cho các phép tính hệ ko dấu kiểu này thôi chứ ko có gì cao siêu chỉ là result = N mod $$\Large2^{N}$$ , khi ta biết cách và dự đoán được trước những gì mà CPU sẽ thực hiện hay compile v.v. thì đồng nghĩa là ta đã hiểu cách hoạt động của mấy quỷ đó rồi mà
 
+> phần áp dụng thử vào C, bạn có thể bỏ qua nếu ko quan tâm đến
+
+<details>
+	<summary>Áp dụng thử vào C</summary>
+
+- Chúng ta sẽ viết một đoạn mã C chia lấy dư %, tương đương với modulo để minh họa phép tính với biểu thưc $$\Large2^{N}$$ để làm tràn số nguyên ko dấu với các kiểu dữ liệu và kiểm thử modulo có chính xác ko
+
+```c
+#include <stdio.h>
+
+int main(void){
+	unsigned short max_short = 65535; //1111111...
+	printf("max_short hiện tại là:%d\nmax_short sau khi cộng 1 là:%d\nmodulo 65535 MOD 65536 là:%d\nmodulo 65536 MOD 65536 là:%d\nmax_short sau khi cộng thêm 392 là:%d\nmodulo 65535+392 MOD 65536 là:%d\nta thấy kết quả modulo và tính cộng ở C hoàn toàn trùng khớp\n",
+
+			max_short, //lúc này vẫn là 65535
+
+			(unsigned short)((unsigned short)max_short + 1), /*cộng 1, dựa vào bài học trước là short sẽ bị ép thành int
+															 để chăc chắn hơn ta dùng hai lần ép kiểu*/
+
+			(65535 % 65536), //modulo kết quả là 65535 vì đó là số dư
+
+			(65536 % 65536), // modulo kêt quả là 0 vì nó chia hết
+
+			(unsigned short)((unsigned short)max_short + 392), //cộng 392 kết quả là 391
+
+			((65535+392) % 65536) //thêm 392 kết quả là 391
+			);
+	return 0;
+}
+```
+
+> gcc -o test_type test_type.c ; ./test_type
+
+![alt text](image89.png)
+
+chúng ta thấy phép tính modulo và tính bit ở C nó khớp nhau 
+
+</details>
+
 **2.1.1.4 Vòng tuần hoàn của số nguyên không dấu (Wrap-around)**
 
 - đầu tiên là Wrap-around là gì, 
