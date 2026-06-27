@@ -1412,6 +1412,56 @@ chúng ta thấy phép tính modulo và tính bit ở C nó khớp nhau
 
 **2.1.2 signed overflow**
 
+Là hiện tượng vượt quá Tmax hay Tmin của một dãy binary, ví dụ khi ta có 4bit và 4bit này có Tmax là 0111 = 7 tương đương $$\Large2^{4-1}-1$$ và Tmin là 1000 = -8 tương đương $$\Large-2^{4-1}$$ 
+
+![alt text](image90.png)
+
+nhưng khi ta vượt quá hai Tmax và Tmin này nó lại là số khác. Ví dụ ta vượt Tmax là 7 + 1 = 8 lúc này bit thành (1000) theo luật bù hai MSB = 1 là số âm thì ra kết quả là -8 đó gọi là signed overflow, vậy còn vượt miền tmin? ví dụ ta có -8 là Tmin của 4bit, bây giờ theo toán học khi âm cộng dương thì kết quả là âm sẽ giảm dần tới -1 tới số 0 rồi tăng lên, còn ở đây vượt miền tmin là gì nghĩa là ta cộng sao cho ra kết quả là số lớn hơn -8 ý, ví dụ -8 + -1 = -9 nhưng hệ 4 bit còn chỗ nào chứa -9 đâu mà nói âm 9? nên kết quả sẽ là `0111` lại quay về Tmax = 7 , đó cũng gọi là signed overflow. Chúng ta có thể quan sát dễ hơn nếu có bảng tính :
+
+| 4bit | 0000 |
+|------|------|
+| Tmax (lúc đầu) | 0111 |
+| vượt tmax ( +1 ) | 1000 (số âm) |
+
+còn về tmin :
+
+| 4bit | 0000 |
+|------|------|
+| Tmin (lúc đầu) | 1000 |
+| vượt tmin ( +(-1) ) | 1111 |
+| kết quả | 0111 |
+
+Bạn thấy nó lại quay về Tmax. **Vậy tại sao 1000 + 1111 = 0111?? tại sao nó lại quay về Tmax? Liệu điều này có phải vòng tuần hoàn của signed overflow?** , Câu hỏi số 1 là tại sao nó lại quay về Tmax? ở đây nó quay về Tmax là vì khi phép tính là 1000 + 1111 thì lúc này nó trở thành 10111, nghĩa là lúc này tràn quá mức mà hệ 4 bit hỗ trợ rồi, như cấc chủ đề trước đã nói khi tràn thế này CPU sẽ thực hiện bỏ các bit ngoài cao nhất đi ở đây là 1, và CF = 1, 1 carry. Nên kết quả cuối cùng sẽ là 0111 suy ra 1000 (-8) + 1111 (-1) = 0111 (7). Câu hỏi số 2 là tại sao nó lại quay về Tmax? đó là phép tính mới là nguyên nhân chính và cách CPU xử lý những con số bit vượt quá ngưỡng miền mà ngành kiến trúc hỗ trợ. Ở đây, lý do CPU quay về Tmax ko có gì cao siêu chỉ là CPU nó ko biết unsigned hay signed là gì nó chỉ biết khi số bit này vượt quá miền mà nó hỗ trợ thì nó thực hiện loại bỏ bit đó, chỉ giữ lại những bit mà nó hỗ trợ ở đây nó là 1000 + 1111 = 0111, do 1+1 = 10 và số 1 bên ngoài vượt quá miền mà CPU hỗ trợ nên nó bị loại bỏ. Điều này chúng ta đã đi qua các chủ đề trước và gặp nhiều rồi. Câu hỏi số 3 là liệu điều này có phải là vòng tuần hoàn (wrap around) của signed thì đúng signed nó cũng có wrap around chẳng hạn như `-8 -> 7` nghĩa là `Tmin -> Tmax` cũng như thế khi vượt quá cái này thì nó sẽ trở lại như đồng hồ, ví dụ vươt Tmax thì nó sẽ là Tmin, nhưng khi vượt Tmin thì nó sẽ là Tmax
+
+> Phần áp dụng với C, bạn có thể bỏ qua nếu ko quan tâm đến
+
+<details>
+	<summary>áp dụng vào C</summary>
+
+- Cho đoạn mã C như sau để minh họa signed overflow với kiểu dữ liệu short :
+
+```c
+#include <stdio.h>
+
+int main(void){
+	short Tmax = 32767; //0111..
+	short Tmin = -32768; //1000..
+	printf("Tmax 16bit lúc đầu :%d\n"
+			"Tmax 16bit sau khi cộng 1:%d\n"
+			"Tmin 16bit lúc đầu :%d\n"
+			"Tmin 16bit sau khi cộng -1:%d\n",
+			Tmax,(short)((short)Tmax + 1), Tmin, (short)((short)Tmin + -1));
+	return 0;
+}
+```
+
+> gcc -o test_type test_type.c ; ./test_type
+
+![alt text](image91.png)
+
+Chúng ta thấy kết quả đúng như kỳ vọng
+</details>
+
 **2.1.2.1 vượt miền Tmin/Tmax**
 
 **2.1.2.2 cờ OF (overflow flag)**
