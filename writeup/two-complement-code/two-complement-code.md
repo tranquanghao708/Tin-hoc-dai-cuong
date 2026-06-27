@@ -1460,12 +1460,54 @@ int main(void){
 
 ![alt text](image91.png)
 
-Chúng ta thấy kết quả đúng như kỳ vọng
+Chúng ta thấy kết quả đúng như kỳ vọng.
+
 </details>
 
 **2.1.2.1 Điều kiện xảy ra signed overflow**
 
 **2.1.2.2 cờ OF (overflow flag)**
+
+- Cờ OF là 
+
+<details>
+	<summary>Áp dụng thử vào C</summary>
+
+- chúng ta sẽ sử dụng lại code C ở mục 2.1.2:
+
+```c
+#include <stdio.h>
+
+int main(void){
+	short Tmax = 32767; //0111..
+	short Tmin = -32768; //1000..
+	printf("Tmax 16bit lúc đầu :%d\n"
+			"Tmax 16bit sau khi cộng 1:%d\n"
+			"Tmin 16bit lúc đầu :%d\n"
+			"Tmin 16bit sau khi cộng -1:%d\n",
+			Tmax,(short)((short)Tmax + 1), Tmin, (short)((short)Tmin + -1));
+	return 0;
+}
+```
+
+> gcc -o test_type test_type.c ; ./test_type
+
+![alt text](image91.png)
+
+Nó vẫn đúng theo kỳ vọng của chúng ta nhưng mà cờ OF sẽ là 1 ở các phần như lúc cộng tràn sang MSB, signed overflow. Để biết các binary vận hành thế nào và liệu nó có thực sự làm đúng như chúng ta đã biết ở trên hay ko thì chúng ta sẽ soi các thanh ghi làm việc, nhưng ta biết là chúng sẽ được zero và sign extension lên thêm 16bit nữa vì short được ép thành int theo chuẩn C, Tmax sẽ được zero extension còn Tmin sẽ được sign extension. Chúng ta sẽ thực hành debug luôn cờ OF
+
+> phần debug, bạn có thể bỏ qua nếu ko quan tâm tới 
+
+<details>
+	<summary>Phần debug</summary>
+
+- Đầu tiên là cái GDB phát :
+
+> gdb -q test_type
+
+
+</details>
+</details>
 
 **2.1.2.3 Vì sao MSB thay đổi nhưng không phải nguyên nhân của signed overflow?**
 
