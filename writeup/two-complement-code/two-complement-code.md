@@ -18,6 +18,8 @@
 
 	- 1.5. Cắt bớt số bit *(Truncating Numbers, 2.2.7 trang 117)*
 
+	- 1.6. Phép đối của số bù hai *(Two’s-Complement Negation, 2.3.3 trang 131)*
+
 - 2.[Tràn số](#tràn-số)
 
 	- 2.1 signed overflow và unsigned overflow
@@ -34,13 +36,11 @@
 
 	- 2.1.2 signed overflow
 
-	- 2.1.2.1 Phép đối của số bù hai *(Two’s-Complement Negation, 2.3.3 trang 131)*
+	- 2.1.2.1 cờ OF (overflow flag)
 
-	- 2.1.2.2 cờ OF (overflow flag)
+	- 2.1.2.2 Vì sao MSB thay đổi nhưng không phải nguyên nhân của signed overflow?
 
-	- 2.1.2.3 Vì sao MSB thay đổi nhưng không phải nguyên nhân của signed overflow?
-
-	- 2.1.2.4 Vì sao CPU nó lại ko phân biệt được signed, unsigned, cách diễn giải thậm chí là âm hay dương? Và điều gì khiến nó ra màn hình trước mặt của chúng ta là số âm, và sao nó biết một chương trình đang signed để nó cho MSB = 1 theo bù hai và unsigned để nó bỏ dấu âm đi dù bản thân nó ko phân biệt và biết nổi signed và unsigned là quái gì?
+	- 2.1.2.3 Vì sao CPU nó lại ko phân biệt được signed, unsigned, cách diễn giải thậm chí là âm hay dương? Và điều gì khiến nó ra màn hình trước mặt của chúng ta là số âm, và sao nó biết một chương trình đang signed để nó cho MSB = 1 theo bù hai và unsigned để nó bỏ dấu âm đi dù bản thân nó ko phân biệt và biết nổi signed và unsigned là quái gì?
 
 ---
 
@@ -644,6 +644,28 @@ bỏ bit ngoài đi, chúng ta có kết quả là 0. Đó là bù hai
 | dịch phải 1 | 00100010 |
 
 - Điều đó bình thường và ko sai, nhưng sẽ có hậu quả nếu nó xảy ra hiện tượng ví dụ `overflow` , `signed wrap` . Thế hai hiện tượng này là gì?, overflow gồm hai phần `signed overflow` và `unsigned overflow` . còn signed wrap
+
+**1.6. Phép đối của số bù hai**
+
+![alt text](image93.png)
+
+> trích từ trang 189 tại phần Two’s-Complement Negation, mục 2.3.3
+
+- đầu tiên phải hiều **phép đối là gì** đã, phép đối là những số đối kiểu như khác dấu, ví dụ số 1 là dương nhưng -1 vẫn là phát âm `một` nhưng nó là âm đó là số đối của 1, số đối là cái này là dương cái kia là âm ví dụ ta có bảng như thế này :
+
+| số dương (đối của âm) | 1 | 2 | 3 | 4 | 5 |
+|-----------------------|---|---|---|---|---|
+| số âm (đối của dương) | -1 | -2 | -3 | -4 | -5 |
+
+đó ta thấy nó đối nghịch nhau, âm đối dương, dương đối âm đó gọi là phép đối. Điều đặc biệt là lấy hai số đối cộng lại kết quả là `0` dương nhưng nó ko góp gì ở dãy số, ví dụ `1 + (-1) = 0` , `2 + (-2) = 0` v.v. đó là tính chất quan trọng của phép đối. Còn **phép đối của số bù hai là gì**, CPU nó ko biết dấu âm hay dương, nó chỉ biết bit. Điều quan trọng ta thường nhắc lại nhiều lần, nên nó sẽ ko lưu dâu âm như toán học thay vào đó nó lấy số đối bằng cách đảo bit `0->1` ,`1->0` và cộng thêm một. Công thức như sau `-x = ~x + 1` ví dụ khi có 4bit và bây giờ ta muốn chuyển giá trị số nguyên là `5` sang hệ 4bit này kết quả sẽ là `0101` nhưng bây giờ ta muốn bit này là số đối của `5` nghĩa là `-5` thì ta dùng `-x = ~0101 + 1` kết quả là `1011` là `-5`
+
+![alt text](image92.png)
+
+> phần ví dụ với C, bạn có thể bỏ qua nếu ko quan tâm tới
+
+<details>
+	<summary>ví dụ với C</summary>
+</details>
 
 **2.1 signed overflow và unsigned overflow**
 
@@ -1468,23 +1490,7 @@ Chúng ta thấy kết quả đúng như kỳ vọng.
 
 </details>
 
-**2.1.2.1 Phép đối của số bù hai**
-
-![alt text](image93.png)
-
-> trích từ trang 189 tại phần Two’s-Complement Negation, mục 2.3.3
-
-- đầu tiên phải hiều **phép đối là gì** đã, phép đối là những số đối kiểu như khác dấu, ví dụ số 1 là dương nhưng -1 vẫn là phát âm `một` nhưng nó là âm đó là số đối của 1, số đối là cái này là dương cái kia là âm ví dụ ta có bảng như thế này :
-
-| số dương (đối của âm) | 1 | 2 | 3 | 4 | 5 |
-|-----------------------|---|---|---|---|---|
-| số âm (đối của dương) | -1 | -2 | -3 | -4 | -5 |
-
-đó ta thấy nó đối nghịch nhau, âm đối dương, dương đối âm đó gọi là phép đối. Điều đặc biệt là lấy hai số đối cộng lại kết quả là `0` dương nhưng nó ko góp gì ở dãy số, ví dụ `1 + (-1) = 0` , `2 + (-2) = 0` v.v. đó là tính chất quan trọng của phép đối. Còn **phép đối của số bù hai là gì**, CPU nó ko biết dấu âm hay dương, nó chỉ biết bit. Điều quan trọng ta thường nhắc lại nhiều lần, nên nó sẽ ko lưu dâu âm như toán học thay vào đó nó lấy số đối bằng cách đảo bit `0->1` ,`1->0` và cộng thêm một. Công thức như sau `-x = ~x + 1` ví dụ khi có 4bit và bây giờ ta muốn chuyển giá trị số nguyên là `5` sang hệ 4bit này kết quả sẽ là `0101` nhưng bây giờ ta muốn bit này là số đối của `5` nghĩa là `-5` thì ta dùng `-x = ~0101 + 1` kết quả là `1011` là `-5`
-
-![alt text](image92.png)
-
-**2.1.2.2 cờ OF (overflow flag)**
+**2.1.2.1 cờ OF (overflow flag)**
 
 - Cờ OF là 
 
@@ -1527,6 +1533,6 @@ Nó vẫn đúng theo kỳ vọng của chúng ta nhưng mà cờ OF sẽ là 1 
 </details>
 </details>
 
-**2.1.2.3 Vì sao MSB thay đổi nhưng không phải nguyên nhân của signed overflow?**
+**2.1.2.2 Vì sao MSB thay đổi nhưng không phải nguyên nhân của signed overflow?**
 
-**2.1.2.4 Vì sao CPU nó lại ko phân biệt được signed, unsigned, cách diễn giải thậm chí là âm hay dương? Và điều gì khiến nó ra màn hình trước mặt của chúng ta là số âm, và sao nó biết một chương trình đang signed để nó cho MSB = 1 theo bù hai và unsigned để nó bỏ dấu âm đi dù bản thân nó ko phân biệt và biết nổi signed và unsigned là quái gì?**
+**2.1.2.3 Vì sao CPU nó lại ko phân biệt được signed, unsigned, cách diễn giải thậm chí là âm hay dương? Và điều gì khiến nó ra màn hình trước mặt của chúng ta là số âm, và sao nó biết một chương trình đang signed để nó cho MSB = 1 theo bù hai và unsigned để nó bỏ dấu âm đi dù bản thân nó ko phân biệt và biết nổi signed và unsigned là quái gì?**
