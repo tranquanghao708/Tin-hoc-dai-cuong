@@ -1470,6 +1470,10 @@ Chúng ta thấy kết quả đúng như kỳ vọng.
 
 **2.1.2.1 Phép đối của số bù hai**
 
+![alt text](image93.png)
+
+> trích từ trang 189 tại phần Two’s-Complement Negation, mục 2.3.3
+
 - đầu tiên phải hiều **phép đối là gì** đã, phép đối là những số đối kiểu như khác dấu, ví dụ số 1 là dương nhưng -1 vẫn là phát âm `một` nhưng nó là âm đó là số đối của 1, số đối là cái này là dương cái kia là âm ví dụ ta có bảng như thế này :
 
 | số dương (đối của âm) | 1 | 2 | 3 | 4 | 5 |
