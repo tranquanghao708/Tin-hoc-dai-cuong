@@ -2,7 +2,7 @@
 
 > bắt đầu viết vào ngày : 15/6/2026
 
-> hoàn thành vào ngày : 
+> hoàn thành vào ngày : 29/6/2026
 
 **mục lục**
 
@@ -42,6 +42,7 @@
 
 	- 2.1.2.3 Vì sao CPU nó lại ko phân biệt được signed, unsigned, cách diễn giải thậm chí là âm hay dương? Và điều gì khiến nó ra màn hình trước mặt của chúng ta là số âm, và sao nó biết một chương trình đang signed để nó cho MSB = 1 theo bù hai và unsigned để nó bỏ dấu âm đi dù bản thân nó ko phân biệt và biết nổi signed và unsigned là quái gì?
 
+- 3.[Kết luận](#kết-luận)
 ---
 
 # Mã bù hai
@@ -971,7 +972,7 @@ thì bây giờ short là 16bit = 2byte thì int nó sẽ gấp đôi short là 
 <details>
 	<summary>câu trả lời cho câu hỏi trên</summary>
 
-- Nó xảy ra ở phần cứng, còn về hợp ngữ chỉ là để diễn giải hay gắn này kia chứ tràn số bit là hoàn toàn ở CPU.Vậy ở đây chúng ta dùng kiểu dữ liệu mà? có phải $$\Large2^{64}$$ ở 64bit đâu mà ở phần cứng?. Đúng, nó là kiểu dữ liệu nhưng CPU ko biết kiểu dữ liệu là gì nó sinh lệnh assembly thú thẳng là nó ko biết assembly là gì nó chỉ biết 0 và 1 là cốt lõi xưa giờ. Chúng ta nói assembly cho dễ hiểu, ở đây CPU ko biết short hay int nó chỉ giới hạn kiểu đọc theo độ rộng toán hạng của type ví dụ int 32 bit thì lệnh assembly thì CPU biết phần này nó chỉ đọc đúng 32 bit thôi ko hơn. Còn về việc tràn số là biểu thức $$\Large2^{N}$$ vượt quá số bit mà type cho phép, bit thừa bị bỏ. CPU đọc số lượng thấy nó vượt quá độ rộng toán hạng mà mình đọc, nó bỏ các bit thừa đi giống như kiến trúc mà nó hỗ trợ là 64bit nhưng ở đây là phạm vi giới hạn để biểu diễn theo kiểu dữ liệu. Do là nó ở mức phần cứng, chúng ta cũng ko thể debug được để lấy bằng chứng vì cần phải có kỹ năng cao hơn
+- Nó xảy ra ở phần cứng, hợp ngữ chỉ để diễn giải thực thi, tràn số hoàn toàn ở CPU.Vậy ta dùng kiểu dữ liệu mà? có phải $$\Large2^{64}$$ ở 64bit đâu mà ở phần cứng?. Đúng, nó là kiểu dữ liệu nhưng CPU ko biết kiểu dữ liệu là gì ,assembly là gì nó chỉ biết bit. Chúng ta nói assembly cho dễ hiểu, ở đây CPU ko biết short hay int nó chỉ giới hạn kiểu đọc theo độ rộng toán hạng của type ví dụ int 32 bit thì lệnh assembly thì CPU biết phần này nó chỉ đọc đúng 32 bit thôi ko hơn. Còn về việc tràn số là biểu thức $$\Large2^{N}$$ vượt quá số bit mà type cho phép, bit thừa bị bỏ. CPU đọc số lượng thấy nó vượt quá độ rộng toán hạng mà mình đọc, nó bỏ các bit thừa đi giống như kiến trúc mà nó hỗ trợ là 64bit nhưng ở đây là phạm vi giới hạn để biểu diễn theo kiểu dữ liệu. Do là nó ở mức phần cứng, chúng ta cũng ko thể debug được để lấy bằng chứng vì cần phải có kỹ năng cao hơn
 
 </details>
 
@@ -1523,7 +1524,7 @@ Chúng ta thấy kết quả đúng như kỳ vọng.
 
 **2.1.2.1 cờ OF (overflow flag)**
 
-- Cờ OF = 1 là trạng thái kết quả toán học ko nằm trong Wrap-around signed binary. Ví dụ, `0111 + 0001 = 1000` toán học `7 + 1 = 8` nhưng $$\large8 \notin [-8, 7]$$ -> OF = 1, ví dụ 2 là `1000 + 1111 = 0111` toán học `-8 + -1 = -9` nhưng $$\large-9 \notin [-8, 7]$$ -> OF = 1, ví dụ 3 là `0011 + 1000 = 1011` toán học `3 + (-8) = -5` nhưng $$\large-5 \in [-8, 7]$$ -> OF = 0
+- Cờ OF = 1 là trạng thái kết quả toán học ko nằm ngoài miền [Tmin, Tmax]. Ví dụ, `0111 + 0001 = 1000` toán học `7 + 1 = 8` nhưng $$\large8 \notin [-8, 7]$$ -> OF = 1, ví dụ 2 là `1000 + 1111 = 0111` toán học `-8 + -1 = -9` nhưng $$\large-9 \notin [-8, 7]$$ -> OF = 1, ví dụ 3 là `0011 + 1000 = 1011` toán học `3 + (-8) = -5` nhưng $$\large-5 \in [-8, 7]$$ -> OF = 0
 
 <details>
 	<summary>Áp dụng thử vào C</summary>
@@ -1607,4 +1608,32 @@ theo đúng kỳ vọng nên OF bật khi kết quả toán học $$\large\notin
 
 **2.1.2.3 Vì sao CPU nó lại ko phân biệt được signed, unsigned, cách diễn giải thậm chí là âm hay dương? Và điều gì khiến nó ra màn hình trước mặt của chúng ta là số âm, và sao nó biết một chương trình đang signed để nó cho MSB = 1 theo bù hai và unsigned để nó bỏ dấu âm đi dù bản thân nó ko phân biệt và biết nổi signed và unsigned là quái gì?**
 
-- Đó là cách chúng ta diễn giải bit, ngoài ra còn có ASCII, Opcode v.v. màn hình chỉ 3 màu đảm nhiệm vụ khác. CPU nhiệm vụ khác, chính cách diễn giải lên màn hình và luật được định nghĩa xưa nay mới quyết định bit dấu đóng vai trò gì, in gì
+- Đó là cách chúng ta diễn giải bit, ngoài ra còn có ASCII, Opcode, signed, unsigned, v.v. màn hình chỉ 3 màu đảm nhiệm vụ khác. CPU nhiệm vụ khác, chính cách diễn giải lên màn hình và luật được định nghĩa xưa nay mới quyết định bit dấu đóng vai trò gì, in gì . CPU, thanh ghi chỉ handle với bit, ngoài bit ko có khái niệm gì khác
+
+### Kết luận
+
+- OF = 1 là kết quả toán học $$\large\notin$$ [Tmin, Tmax]
+
+- MSB đổi ko có nghĩa OF = 1
+
+- Hai số trái dấu cộng nhau thì không thể signed overflow
+
+- CPU handle với bit, ngoài bit ko có khái niệm khác
+
+- Trong diễn giải bù hai có dấu MSB = 1 là dấu âm
+
+- Miền biểu diễn chỉ là [Tmin,Tmax]
+
+- Trong C, short được integer promotion thành int trong hầu hết các biểu thức. Và signed overflow chính là UB, C ko đảm bảo chắc chắn giá trị Tmax Tmin là chính xác trong nó
+
+- CF khác OF, CF biểu thị trạng thái có bit vượt quá Umax, OF biểu thị trạng thái signed overflow
+
+- modulo **N mod $$\large2^{N}$$** chỉ tính kết quả số ko dấu sau khi cấp N vào
+
+- $$\large-2^{N-1}$$ tính Tmin, $$\large2^{N-1}-1$$ tính Tmax, $$\large2^{N}-1$$ tính Umax
+
+- -x = ~x + 1 là quy tắc tính phép đối trong bù hai
+
+- cắt bớt số bit là khi ép kiểu có bit lớn hơn sang kiểu có bit nhỏ hơn. Số bit còn lại bị cắt, chỉ giữ những bit của kiểu nhỏ hơn, nếu có bit 1 trong miền bị cắt kết quả sẽ thay đổi hoàn toàn
+
+- T2U chuyển signed sang unsigned với x+$$\large2^{N}$$ điều kiện là x < 0 , U2T chuyển unsigned sang signed với x-$$\large2^{N}$$ điều kiện là x >= $$\large2^{N-1}$$
