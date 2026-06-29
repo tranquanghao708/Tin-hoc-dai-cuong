@@ -696,7 +696,7 @@ nếu bit 1 trong miền bị cắt, giá trị số học có thể thay đổi
 | cộng 1     | 00010010 |
 | dịch phải 1 | 00100010 |
 
-- Điều đó bình thường và ko sai, nhưng sẽ có hậu quả nếu nó xảy ra hiện tượng ví dụ `overflow` , `signed wrap` . Thế hai hiện tượng này là gì?, overflow gồm hai phần `signed overflow` và `unsigned overflow` . còn signed wrap là
+- Điều đó bình thường và ko sai, nhưng sẽ có hậu quả nếu nó xảy ra hiện tượng ví dụ `overflow` , `signed wrap` . Thế hai hiện tượng này là gì?, overflow gồm hai phần `signed overflow` và `unsigned overflow` .
 
 **2.1 signed overflow và unsigned overflow**
 
@@ -1523,7 +1523,7 @@ Chúng ta thấy kết quả đúng như kỳ vọng.
 
 **2.1.2.1 cờ OF (overflow flag)**
 
-- Cờ OF là 
+- Cờ OF = 1 là trạng thái kết quả toán học ko nằm trong Wrap-around signed binary. Ví dụ, `0111 + 0001 = 1000` toán học `7 + 1 = 8` nhưng $$\Large8 \notin [-8, 7]$$ -> OF = 1, ví dụ 2 là `1000 + 1111 = 0111` toán học `-8 + -1 = -9` nhưng $$\Large-9 \notin [-8, 7]$$
 
 <details>
 	<summary>Áp dụng thử vào C</summary>
