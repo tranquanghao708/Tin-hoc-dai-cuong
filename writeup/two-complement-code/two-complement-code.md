@@ -1636,4 +1636,4 @@ theo đúng kỳ vọng nên OF bật khi kết quả toán học $$\large\notin
 
 - cắt bớt số bit là khi ép kiểu có bit lớn hơn sang kiểu có bit nhỏ hơn. Số bit còn lại bị cắt, chỉ giữ những bit của kiểu nhỏ hơn, nếu có bit 1 trong miền bị cắt kết quả sẽ thay đổi hoàn toàn
 
-- T2U chuyển signed sang unsigned với x+$$\large2^{N}$$ điều kiện là x < 0 , U2T chuyển unsigned sang signed với x-$$\large2^{N}$$ điều kiện là x >= $$\large2^{N-1}$$
+- T2U chuyển signed sang unsigned với x + $$\large2^{N}$$ điều kiện là x < 0 , U2T chuyển unsigned sang signed với x - $$\large2^{N}$$ điều kiện là x >= $$\large2^{N-1}$$
