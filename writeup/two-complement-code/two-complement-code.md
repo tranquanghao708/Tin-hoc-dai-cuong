@@ -1528,38 +1528,65 @@ Chúng ta thấy kết quả đúng như kỳ vọng.
 <details>
 	<summary>Áp dụng thử vào C</summary>
 
-- chúng ta sẽ sử dụng lại code C ở mục 2.1.2:
-
 ```c
 #include <stdio.h>
 
 int main(void){
-	short Tmax = 32767; //0111..
-	short Tmin = -32768; //1000..
-	printf("Tmax 16bit lúc đầu :%d\n"
-			"Tmax 16bit sau khi cộng 1:%d\n"
-			"Tmin 16bit lúc đầu :%d\n"
-			"Tmin 16bit sau khi cộng -1:%d\n",
-			Tmax,(short)((short)Tmax + 1), Tmin, (short)((short)Tmin + -1));
+	int Tmax = 2147483647; //0111..
+	int Tmin = -2147483648; //1000..
+	printf("result: %d\n and %d\n",
+
+			Tmax + 1, //-2147483648
+
+			Tmin - 1 //2147483647
+
+			); /*OF = 1, vì 2147483647 + 1 = 2147483648 ko thuộc [-2147483648, 2147483647]
+			OF = 1,  vì -2147483648 + -1 = -2147483649 ko thuộc [-2147483648, 2147483647]*/
 	return 0;
 }
 ```
 
 > gcc -o test_type test_type.c ; ./test_type
 
-![alt text](image91.png)
+![alt text](image95.png)
 
-Nó vẫn đúng theo kỳ vọng của chúng ta nhưng mà cờ OF sẽ là 1 ở các phần như lúc cộng tràn sang MSB, signed overflow. Để biết các binary vận hành thế nào và liệu nó có thực sự làm đúng như chúng ta đã biết ở trên hay ko thì chúng ta sẽ soi các thanh ghi làm việc, nhưng ta biết là chúng sẽ được zero và sign extension lên thêm 16bit nữa vì short được ép thành int theo chuẩn C, Tmax sẽ được zero extension còn Tmin sẽ được sign extension. Chúng ta sẽ thực hành debug luôn cờ OF
+- overflow signed nếu theo góc nhìn CPU thì note trong code là đúng Tmax và Tmin , nhưng chuẩn C nó là UB và ko đảm bảo chính xác đó là Tmax và Tmin
 
 > phần debug, bạn có thể bỏ qua nếu ko quan tâm tới 
 
 <details>
 	<summary>Phần debug</summary>
 
+Debug ta dùng hợp ngữ ko dùng C
+
+```asm
+section .text
+	global _start
+_start:
+	mov eax , 0x7fffffff ;Tmax 32bit
+	mov edi, eax
+	mov eax , 0x80000000 ;Tmin 32bit
+	mov esi, eax
+	; lúc này edi chứa Tmax, esi chứa Tmin
+
+	add edi, 0x1 ; 0x7fffffff + 1 = 0x80000000 Tmin nhưng toán học nó ko thuộc [Tmax , Tmin] vì góc nhìn toán học 0x80000000 là số dương
+	sub esi, 0x1 ; 0x80000000 + (-1) = 0x7fffffff tmax nhưng toán học nó ko thuộc [Tmax, tim] vì góc nhìn toán học là 0x17fffffff
+	xor edi, edi
+	mov rax, 60
+	syscall ;gọi exit
+```
+
+> nasm -f elf64 asm.asm ; ld asm.o -o asm ; ./asm
+
 - Đầu tiên là cái GDB phát :
 
-> gdb -q test_type
+> gdb -q asm
 
+vào đó ni và thực thi xong `add edi, 0x1` :
+
+![alt text](image96.png)
+
+theo như kỳ vọng nên OF bật khi kết quả toán học $$large\notin$$ [Tmax, Tmin]
 
 </details>
 </details>
